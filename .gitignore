@@ -65,3 +65,7 @@ scripts/curate_metadata/config_curate_metadata/manualAnnotationRules.txt
 
 # SLURM log files
 slurm-*.out
+
+
+# IntelliJ
+.idea/
