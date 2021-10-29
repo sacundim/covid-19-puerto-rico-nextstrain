@@ -44,5 +44,5 @@ subsampling:
         focus: "division"
 
 files:
-  auspice_config: "my_profiles/puerto-rico_open/my_auspice_config.json"
-  description: "my_profiles/puerto-rico_open/my_description.md"
+  auspice_config: "puerto-rico_profiles/puerto-rico_open/my_auspice_config.json"
+  description: "puerto-rico_profiles/puerto-rico_open/my_description.md"

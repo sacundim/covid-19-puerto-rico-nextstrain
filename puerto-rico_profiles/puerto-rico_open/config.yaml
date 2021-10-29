@@ -8,7 +8,7 @@
 
 configfile:
   - defaults/parameters.yaml # Pull in the default values
-  - my_profiles/puerto-rico_open/builds.yaml # Pull in our list of desired builds
+  - puerto-rico_profiles/puerto-rico_open/builds.yaml # Pull in our list of desired builds
 
 # Set the maximum number of cores you want Snakemake to use for this pipeline.
 cores: 4
