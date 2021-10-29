@@ -1,14 +1,50 @@
 {
-  "title": "Example of a build generated using multiple inputs",
-  "build_url": "https://github.com/nextstrain/ncov",
+  "title": "Secuencias genómicas de SARS-CoV-2, análisis enfocado en Puerto Rico",
+  "build_url": "https://github.com/sacundim/covid-19-puerto-rico-nextstrain",
   "maintainers": [
     {"name": "sacundim", "url": "https://github.com/sacundim"}
   ],
+  "data_provenance": [
+    {
+      "name": "GenBank",
+      "url": "https://www.ncbi.nlm.nih.gov/genbank/"
+    }
+  ],
   "colorings": [
     {
-      "key": "pr_open",
-      "title": "Source: Puerto Rico",
-      "type": "boolean"
+      "key": "emerging_lineage",
+      "title": "Emerging Lineage",
+      "type": "categorical"
+    },
+    {
+      "key": "pango_lineage",
+      "title": "PANGO Lineage",
+      "type": "categorical"
+    },
+    {
+      "key": "clade_membership",
+      "title": "Clade",
+      "type": "categorical"
+    },
+    {
+      "key": "S1_mutations",
+      "title": "S1 mutations",
+      "type": "continuous"
+    },
+    {
+      "key": "logistic_growth",
+      "title": "Logistic growth",
+      "type": "continuous"
+    },
+    {
+      "key": "current_frequency",
+      "title": "Current frequency",
+      "type": "continuous"
+    },
+    {
+      "key": "mutational_fitness",
+      "title": "Mutational fitness",
+      "type": "continuous"
     },
     {
       "key": "division",
@@ -31,22 +67,12 @@
       "type": "categorical"
     },
     {
-      "key": "age",
-      "title": "Age",
-      "type": "continuous"
-    },
-    {
-      "key": "sex",
-      "title": "Sex",
-      "type": "categorical"
-    },
-    {
       "key": "author",
       "title": "Authors",
       "type": "categorical"
     },
     {
-      "key": "originating_lab",
+      "key":"originating_lab",
       "title": "Originating Lab",
       "type": "categorical"
     },
@@ -61,10 +87,6 @@
       "type": "categorical"
     },
     {
-      "key": "gisaid_epi_isl",
-      "type": "categorical"
-    },
-    {
       "key": "genbank_accession",
       "type": "categorical"
     }
@@ -75,23 +97,25 @@
     "region"
   ],
   "display_defaults": {
-    "color_by": "pr_open",
+    "color_by": "clade_membership",
     "distance_measure": "num_date",
-    "geo_resolution": "country",
+    "geo_resolution": "division",
     "map_triplicate": false,
-    "branch_label": "none"
+    "branch_label": "clade",
+    "transmission_lines": false
   },
   "filters": [
     "recency",
-    "pr_open",
-    "division",
-    "country",
+    "emerging_lineage",
+    "clade_membership",
     "region",
-    "host",
-    "author"
+    "country",
+    "division",
+    "host"
   ],
   "panels": [
     "tree",
-    "entropy"
+    "entropy",
+    "frequencies"
   ]
 }
