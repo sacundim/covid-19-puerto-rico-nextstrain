@@ -19,29 +19,34 @@ subsampling:
   divisional:
     division:
       group_by: "year month"
-      seq_per_group: 300
+      max_sequences: 2500
       query: --query "(country == '{country}' & division == '{division}')"
     country:
-      group_by: "division year month"
-      seq_per_group: 20
+      group_by: "year month"
+      max_sequences: 800
       exclude: "--exclude-where 'country!={country}'"
       priorities:
         type: "proximity"
         focus: "division"
     region:
-      group_by: "country year month"
-      seq_per_group: 10
+      group_by: "year month"
+      max_sequences: 600
       exclude: "--exclude-where 'region!={region}'"
       priorities:
         type: "proximity"
         focus: "division"
     global:
-      group_by: "country year month"
-      seq_per_group: 5
+      group_by: "year month"
+      max_sequences: 600
       exclude: "--exclude-where 'region={region}'"
       priorities:
         type: "proximity"
         focus: "division"
+
+# GenBank data includes "Wuhan-Hu-1/2019" which we use as the root for this build
+# as Wuhan/Hu-1/2019 is not in the data.
+refine:
+  root: "Wuhan-Hu-1/2019"
 
 files:
   auspice_config: "puerto-rico_profiles/puerto-rico_open/my_auspice_config.json"
