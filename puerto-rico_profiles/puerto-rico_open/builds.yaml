@@ -22,23 +22,16 @@ subsampling:
       max_sequences: 2500
       query: --query "(country == '{country}' & division == '{division}')"
     country:
-      group_by: "year month"
-      max_sequences: 800
-      exclude: "--exclude-where 'country!={country}'"
-      priorities:
-        type: "proximity"
-        focus: "division"
-    region:
-      group_by: "year month"
-      max_sequences: 600
-      exclude: "--exclude-where 'region!={region}'"
+      group_by: "division year month"
+      max_sequences: 1500
+      query: --query "(country == '{country}' & division != '{division}')"
       priorities:
         type: "proximity"
         focus: "division"
     global:
-      group_by: "year month"
-      max_sequences: 600
-      exclude: "--exclude-where 'region={region}'"
+      group_by: "country year month"
+      max_sequences: 1500
+      query: --query "country != '{country}'"
       priorities:
         type: "proximity"
         focus: "division"
