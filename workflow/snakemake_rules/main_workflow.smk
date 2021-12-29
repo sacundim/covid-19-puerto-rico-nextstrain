@@ -139,44 +139,10 @@ def _collect_exclusion_files(wildcards):
     # (1) a config-defined exclude file
     # (2) a dynamically created file (`rule diagnostic`) which scans the alignment for potential errors
     # The second file is optional - it may be opted out via config → skip_diagnostics
-    # If the input starting point is "masked" then we also ignore the second file, as the alignment is not available
     if config["filter"].get(wildcards["origin"], {}).get("skip_diagnostics", False):
-        return [ config["files"]["exclude"] ]
-    if "masked" in config["inputs"][wildcards["origin"]]:
         return [ config["files"]["exclude"] ]
     return [ config["files"]["exclude"], f"results/to-exclude_{wildcards['origin']}.txt" ]
 
-rule mask:
-    message:
-        """
-        Mask bases in alignment {input.alignment}
-          - masking {params.mask_from_beginning} from beginning
-          - masking {params.mask_from_end} from end
-          - masking other sites: {params.mask_sites}
-        """
-    input:
-        alignment = lambda w: _get_path_for_input("aligned", w.origin)
-    output:
-        alignment = "results/masked_{origin}.fasta.xz"
-    log:
-        "logs/mask_{origin}.txt"
-    benchmark:
-        "benchmarks/mask_{origin}.txt"
-    params:
-        mask_from_beginning = config["mask"]["mask_from_beginning"],
-        mask_from_end = config["mask"]["mask_from_end"],
-        mask_sites = config["mask"]["mask_sites"]
-    conda: config["conda_environment"]
-    shell:
-        """
-        python3 scripts/mask-alignment.py \
-            --alignment {input.alignment} \
-            --mask-from-beginning {params.mask_from_beginning} \
-            --mask-from-end {params.mask_from_end} \
-            --mask-sites {params.mask_sites} \
-            --mask-terminal-gaps \
-            --output /dev/stdout | xz -c -2 > {output.alignment} 2> {log}
-        """
 
 rule filter:
     message:
@@ -187,7 +153,7 @@ rule filter:
           - min length: {params.min_length}
         """
     input:
-        sequences = lambda wildcards: _get_path_for_input("masked", wildcards.origin),
+        sequences = lambda wildcards: _get_path_for_input("aligned", wildcards.origin),
         metadata = "results/sanitized_metadata_{origin}.tsv.xz",
         # TODO - currently the include / exclude files are not input (origin) specific, but this is possible if we want
         include = config["files"]["include"],
@@ -488,12 +454,17 @@ rule priority_score:
         priorities = "results/{build_name}/priorities_{focus}.tsv"
     benchmark:
         "benchmarks/priority_score_{build_name}_{focus}.txt"
+    params:
+        crowding = config["priorities"]["crowding_penalty"],
+        Nweight = 0.003
     conda: config["conda_environment"]
     shell:
         """
         python3 scripts/priorities.py \
             --sequence-index {input.sequence_index} \
             --proximities {input.proximity} \
+            --crowding-penalty {params.crowding} \
+            --Nweight {params.Nweight} \
             --output {output.priorities} 2>&1 | tee {log}
         """
 
@@ -574,6 +545,38 @@ rule build_align:
             --output-basename {params.basename} \
             --output-fasta {output.alignment} \
             --output-insertions {output.insertions} > {log} 2>&1
+        """
+
+rule mask:
+    message:
+        """
+        Mask bases in alignment {input.alignment}
+          - masking {params.mask_from_beginning} from beginning
+          - masking {params.mask_from_end} from end
+          - masking other sites: {params.mask_sites}
+        """
+    input:
+        alignment = rules.build_align.output.alignment
+    output:
+        alignment = "results/{build_name}/masked.fasta"
+    log:
+        "logs/mask_{build_name}.txt"
+    benchmark:
+        "benchmarks/mask_{build_name}.txt"
+    params:
+        mask_from_beginning = config["mask"]["mask_from_beginning"],
+        mask_from_end = config["mask"]["mask_from_end"],
+        mask_sites = config["mask"]["mask_sites"]
+    conda: config["conda_environment"]
+    shell:
+        """
+        python3 scripts/mask-alignment.py \
+            --alignment {input.alignment} \
+            --mask-from-beginning {params.mask_from_beginning} \
+            --mask-from-end {params.mask_from_end} \
+            --mask-sites {params.mask_sites} \
+            --mask-terminal-gaps \
+            --output {output.alignment} 2> {log}
         """
 
 rule compress_build_align:
@@ -673,11 +676,12 @@ rule adjust_metadata_regions:
 rule tree:
     message: "Building tree"
     input:
-        alignment = rules.build_align.output.alignment
+        alignment = rules.mask.output.alignment
     output:
         tree = "results/{build_name}/tree_raw.nwk"
     params:
-        args = lambda w: config["tree"].get("tree-builder-args","") if "tree" in config else ""
+        args = lambda w: config["tree"].get("tree-builder-args","") if "tree" in config else "",
+        exclude_sites = lambda w: f"--exclude-sites {config['files']['sites_to_mask']}" if "sites_to_mask" in config["files"] else ""
     log:
         "logs/tree_{build_name}.txt"
     benchmark:
@@ -694,6 +698,7 @@ rule tree:
         augur tree \
             --alignment {input.alignment} \
             --tree-builder-args {params.args} \
+            {params.exclude_sites} \
             --output {output.tree} \
             --nthreads {threads} 2>&1 | tee {log}
         """
@@ -708,7 +713,7 @@ rule refine:
         """
     input:
         tree = rules.tree.output.tree,
-        alignment = rules.build_align.output.alignment,
+        alignment = rules.mask.output.alignment,
         metadata="results/{build_name}/metadata_adjusted.tsv.xz",
     output:
         tree = "results/{build_name}/tree.nwk",
@@ -792,34 +797,10 @@ rule translate:
     message: "Translating amino acid sequences"
     input:
         tree = rules.refine.output.tree,
-        node_data = rules.ancestral.output.node_data,
-        reference = config["files"]["reference"]
+        translations = lambda w: rules.build_align.output.translations,
+        reference = config["files"]["reference"],
     output:
-        node_data = "results/{build_name}/aa_muts.json"
-    log:
-        "logs/translate_{build_name}.txt"
-    benchmark:
-        "benchmarks/translate_{build_name}.txt"
-    resources:
-        # Memory use scales primarily with size of the node data.
-        mem_mb=lambda wildcards, input: 3 * int(input.node_data.size / 1024 / 1024)
-    conda: config["conda_environment"]
-    shell:
-        """
-        augur translate \
-            --tree {input.tree} \
-            --ancestral-sequences {input.node_data} \
-            --reference-sequence {input.reference} \
-            --output-node-data {output.node_data} 2>&1 | tee {log}
-        """
-
-rule aa_muts_explicit:
-    message: "Translating amino acid sequences"
-    input:
-        tree = rules.refine.output.tree,
-        translations = lambda w: rules.build_align.output.translations
-    output:
-        node_data = "results/{build_name}/aa_muts_explicit.json",
+        node_data = "results/{build_name}/aa_muts.json",
         translations = expand("results/{{build_name}}/translations/aligned.gene.{gene}_withInternalNodes.fasta", gene=config.get('genes', ['S']))
     params:
         genes = config.get('genes', 'S')
@@ -837,6 +818,7 @@ rule aa_muts_explicit:
         """
         python3 scripts/explicit_translation.py \
             --tree {input.tree} \
+            --reference {input.reference} \
             --translations {input.translations:q} \
             --genes {params.genes} \
             --output {output.node_data} 2>&1 | tee {log}
@@ -1139,7 +1121,7 @@ rule logistic_growth:
 rule mutational_fitness:
     input:
         tree = "results/{build_name}/tree.nwk",
-        alignments = lambda w: rules.aa_muts_explicit.output.translations,
+        alignments = lambda w: rules.translate.output.translations,
         distance_map = config["files"]["mutational_fitness_distance_map"]
     output:
         node_data = "results/{build_name}/mutational_fitness.json"
@@ -1221,7 +1203,6 @@ def _get_node_data_by_wildcards(wildcards):
         rules.traits.output.node_data,
         rules.logistic_growth.output.node_data,
         rules.mutational_fitness.output.node_data,
-        rules.aa_muts_explicit.output.node_data,
         rules.distances.output.node_data,
         rules.calculate_epiweeks.output.node_data
     ]
