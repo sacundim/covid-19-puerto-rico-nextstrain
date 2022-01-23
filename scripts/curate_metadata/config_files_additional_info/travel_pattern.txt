@@ -121,6 +121,7 @@ other : imported case from XXX
 Others: Travel history to XXX
 Others: travel history to XXX
 others: travel history to XXX
+Others: Travel History to XXX
 Returned from XXX
 Travel history: XXX (2021-11-22)
 Travel History: XXX
@@ -130,3 +131,12 @@ Symptomatic upon return from XXX
 Travel history: XXX; Residence: Europe / Germany
 Others: traveled to XXX
 Others: Traveled to XXX and Germany
+Others: Traveled to XXX
+Travel history: 2021-12-02 arrived from the XXX
+XXX Travel
+Returning Overseas Filipino Travel History: XXX
+Patient traveled from XXX
+Travel history to XXX, Symptomatic (mild)
+The patient recently traveled to XXX
+Foreign (unknown)/Traveled to XXX
+American /Traveled to XXX

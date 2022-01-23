@@ -583,6 +583,9 @@ def check_travel_history(info, strain_list, travel_pattern, ordering, metadata, 
         if "," in place:
             places = [p.strip() for p in place.split(",")]
             print("Several location names found. Process each individually: " + bold("[" + ", ".join(places) + "]"))
+        elif " and " in place:
+            places = [p.strip() for p in place.split(" and ")]
+            print("Several location names found. Process each individually: " + bold("[" + ", ".join(places) + "]"))
         else:
             places = [place]
 
@@ -798,16 +801,14 @@ def check_additional_info(additional_info, path_to_config_files, auto):
 
         print("\n-------\n")
 
-    for key in sorted_info:
-        (info, info_type) = key
-        strain_list = sorted_info[key]
-        for (id, strain) in strain_list:
-            if metadata[id]["Nextstrain_clade"] == "21K (Omicron)":
-                if not "ZIP Code" in info:
-                    print(id)
-                    print(info)
-                    print()
-
+    with open(path_to_outputs + "omicron_additional_info.txt", "w") as out:
+        for key in sorted_info:
+            (info, info_type) = key
+            strain_list = sorted_info[key]
+            for (id, strain) in strain_list:
+                if metadata[id]["Nextstrain_clade"] == "21K (Omicron)":
+                    if not "ZIP" in info:
+                        out.write(id + ": " + info + "\n")
 
     return annotations_append
 

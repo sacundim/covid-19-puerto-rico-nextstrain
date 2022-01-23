@@ -11731,6 +11731,7 @@ division	Aalst	50.939656	4.064173
 division	Aargau	47.420629	8.172097
 division	Aatalunya	41.670376	1.657348
 division	Abadan	30.3636097	48.2591475
+division	Abia	5.4540953	7.5153071
 division	Abruzzo	42.192	13.7289
 division	Abu Dhabi	24.4747961	54.3705762
 division	Abuja	9.0643305	7.4892974
@@ -11744,6 +11745,7 @@ division	Adana	36.9863599	35.3252861
 division	Addis Ababa	9.0107934	38.7612525
 division	Addu	-0.64149345	73.16299780292195
 division	Adıyaman	37.900714	38.309879
+division	Adjara	41.661400408303116	42.077024113760444
 division	Adrar	26.4888155	-1.3582442169365363
 division	Adygea	44.6939006	40.1520421
 division	Aegean Islands	38.2504094	20.6304217
@@ -11774,6 +11776,7 @@ division	Alba	46.015921250000005	23.54685524706489
 division	Albania	41.000028	19.9999619
 division	Alberta	55.001251	-115.002136
 division	Alborz Province	35.9413239	50.7884216
+division	Aleppo	36.151747900000004	37.39349996674963
 division	Alexandria	31.199004	29.894378
 division	Alger	36.7753606	3.0601882
 division	Algeria	28.0000272	2.9999825
@@ -11821,6 +11824,7 @@ division	Antofagasta	-23.6509	-70.3975
 division	Antsiranana	-12.2779134	49.2913394
 division	Antwerpen	51.225698	4.420885
 division	Aomori	40.886943	140.590121
+division	Aosta Valley	45.730099	7.387426
 division	Appenzell Ausserrhoden	47.3960076	9.3705839
 division	Appenzell Innerrhoden	47.3007262	9.3991527
 division	Apulia	40.7928	17.1012
@@ -11882,6 +11886,7 @@ division	Azad Kashmir	33.62045585868291	75.12498213019724
 division	Azerbaijan	40.3936294	47.7872508
 division	Azuay	-3.0524451	-79.2395135
 division	Bac Giang	21.3092863	106.6165128
+division	Bac Lieu	9.3477317	105.5097064
 division	Bac Ninh	21.1212051	106.0880245
 division	Bacau	46.42613415	26.71205400126924
 division	Bács-Kiskun County	46.551745	19.374218
@@ -11945,6 +11950,7 @@ division	Beijing	40.07132	116.406908
 division	Beirut	33.8938	35.5018
 division	Beit Shemesh	31.7470	34.9881
 division	Beja	38.0153	-7.8627
+division	Bejaia	36.7511783	5.0643687
 division	Bekaa	33.6746204	35.83265535410547
 division	Békés County	46.741797	21.031653
 division	Bekesszentandras	46.8716	20.4834
@@ -12036,6 +12042,7 @@ division	Brandenburg	52.8455492	13.2461296
 division	Braničevo District	44.452519699999996	21.527150035837593
 division	Brasov	45.6580	25.6012
 division	Bratislava	48.1486	17.1077
+division	Brava	14.85194265	-24.70869390903308
 division	Brazil	-10.3333332	-53.1999999
 division	Brazilian Cruise	-15.982399	-35.864365
 division	Brazzaville	-4.2694407	15.2712256
@@ -12055,6 +12062,7 @@ division	Budapest	47.482728	19.084269
 division	Bueng Kan	18.3658615	103.6511582
 division	Buenos Aires	-34.6037	-58.3816
 division	Bukhara Region	40.229366	63.5470584
+division	Bulawayo	-20.1560599	28.5887063
 division	Bulgaria	42.6073975	25.4856617
 division	Bungoma	0.78292445	34.71916810731902
 division	Buraimi	24.268575	55.826808
@@ -12069,6 +12077,7 @@ division	Bushehr	28.8936645	51.3204877
 division	Busia	0.3712048	34.26479520608315
 division	Buskerud	59.5435778	11.4230694
 division	Buzau	45.143297	26.816251
+division	Ca Mau	9.0875429	105.032047
 division	Caaguazu	-25.4661756	-56.0181685
 division	Caazapá	-26.166667	-56.0
 division	Cabinda	-5.056395	12.3211749
@@ -12195,6 +12204,7 @@ division	China	33.394333	104.689839
 division	Chiquimula	14.6891037	-89.3959868807435
 division	Chiriqui	8.3971129	-82.3223443
 division	Chisinau	47.0244707	28.8322534
+division	Chobe District	-18.391508450000003	24.706751761502648
 division	Choco	5.705238	-76.890815
 division	Choluteca	13.3696253	-87.07564445652513
 division	Chonburi	13.1857117	101.1210777
@@ -12365,6 +12375,7 @@ division	Eastern Province RW	-1.9510033	30.435394426431735
 division	Eastern Province SA	23.3036077	50.1258804
 division	Eastern Region GH	6.2583714101413825	-0.5894044915588438
 division	Eastern Region MK	41.90338969322595	22.44468002723218
+division	Eastern Region UG	1.166431433076972	33.73985310551058
 division	Eastern Visayas	11.327827249999999	124.99755612215378
 division	Eastern Zambia	-13.252682328968941	32.228763385086225
 division	Ebolowa	2.71091425	11.253788461354606
@@ -12410,12 +12421,14 @@ division	Faiyum	29.340736999999997	30.61964337571458
 division	Falcon	11.0	-69.833333
 division	Far North	-22.7789702	29.4285175
 division	Faroe Islands	62.157709	-6.987672
+division	Fatick	13.9406041	-16.4024021
 division	Federal Capital Territory	8.8311228	7.1724673
 division	Feeali	3.2703179	73.0022072
 division	Fejer	47.0939434	18.6088562
 division	Fergana Region	40.5	71.25
 division	Ferizaj	42.3682168	21.1532848
 division	Ferkessedougou	9.5939778	-5.1975952
+division	Fez-Meknes	33.8333136	-4.8556382
 division	Fianarantsoa	-21.456444	47.085149
 division	Fiji	-18.1239696	179.0122737
 division	Finland	61.751734	26.186437
@@ -12428,6 +12441,7 @@ division	Flines-lès-Mortagne	50.5037	3.4641
 division	Flores	-33.583333	-56.833333
 division	Florida	27.6648	-81.5158
 division	Florina	40.779442	21.407594
+division	Fogo	14.93216225	-24.393267427931477
 division	Fomboni	-12.2911897	43.7275632
 division	Forecariah	9.4300088	-13.0833859
 division	Formosa	-24.5955306	-60.4289718
@@ -12656,12 +12670,14 @@ division	Illinois	40.088552	-89.301876
 division	Ilocos	17.2046698	120.4703870788443
 division	Imathia	40.51703795	22.18071972652394
 division	Imbabura	0.3753621	-78.355681
+division	Imereti	42.18755995	42.952155407513104
 division	Imo	5.5859456	7.0669651
 division	India	21.077353	78.723951
 division	Indiana	40.2672	-86.1349
 division	Indonesia	0.240253	114.878847
 division	Ingushetia	43.11542075	45.01713552301937
 division	Inhambane	-22.779116	34.5661741
+division	Inner Mongolia	43.2443242	114.3251664
 division	Innlandet	61.26810555	10.485458802304304
 division	Ioannina	39.6639818	20.8522784
 division	Ionian Islands	39.4715111	19.9370027
@@ -12740,10 +12756,12 @@ division	Kaafu Atoll	4.95876855	73.46352773909533
 division	Kabardino-Balkaria	43.4428286	43.4204809
 division	Kabul	34.5260109	69.1776838
 division	Kaduna State	10.3825318	7.8533226
+division	Kaffrine	14.2824927	-15.0247364
 division	Kagawa	34.22908906089769	133.9909139071147
 division	Kaggevinne	50.9794	5.0190
 division	Kagoshima	31.521587	130.5474077
 division	Kahramanmaras	37.7830345	36.830655
+division	Kairouan	35.6710101	10.10062
 division	Kaisiadorys	54.8602337	24.4544785
 division	Kajiado	-2.12171705	36.78625503675998
 division	Kakamega	0.4957104	34.801548861634615
@@ -12772,6 +12790,7 @@ division	Kansai	34.778675	135.880055
 division	Kansas	39.0119	-98.4842
 division	Kanta-Häme	60.93769605	24.15319200958258
 division	Kanto	36.167777	139.170466
+division	Kaolack	14.0436225	-16.016446185954038
 division	Kapilvastu	27.61923765	82.98222657989004
 division	Karachay-Cherkess	43.7368326	41.7267991
 division	Karachi	24.8607	67.0011
@@ -12810,6 +12829,7 @@ division	Kecskemet	46.8964	19.6897
 division	Kedah	5.8098265	100.6715035
 division	Kedainiai	55.2887322	23.9758359
 division	Kedia	-21.3963968	24.619486
+division	Kedougou	12.55709	-12.185538
 division	Keelung	25.1276	121.7392
 division	Kefalonia	38.17297630358924	20.56537713229682
 division	Kelantan	5.4021302	102.0635972
@@ -13029,6 +13049,7 @@ division	Los Rios CL	-39.9742911	-72.667478
 division	Los Rios EC	-1.396432682365568	-79.56045566122232
 division	Los Roques	7.9953096	-67.4879994
 division	Los Santos	7.87734705	-80.42906166183488
+division	Louga	15.2401304	-15.3441834
 division	Louisiana	30.9843	-91.9623
 division	Louth	53.9508	-6.5406
 division	Lovech	43.0443145	24.487966724322504
@@ -13075,6 +13096,7 @@ division	Mahama Refugee Camp	-2.3118581	30.840314
 division	Maharashtra	19.7515	75.7139
 division	Maiduguri	11.8395375	13.1536214
 division	Maine	45.709097	-68.8590201
+division	Maio	15.22721825	-23.156301397162373
 division	Makindu	-2.2814417	37.8147483
 division	Makkah	21.3891	39.8579
 division	Maku	39.46963445	44.61957980765516
@@ -13096,10 +13118,12 @@ division	Mandalay	21.9812746	96.082375
 division	Mandera	3.2285332	40.70561647260599
 division	Mangystau Region	43.7362452	53.1681252
 division	Manica	-18.7805296	33.01596358735862
+division	Manicaland	-19.0188422	32.368889
 division	Manila	14.652678	121.043936
 division	Manipur	24.7208818	93.9229386
 division	Manitoba	55.182879	-97.823531
 division	Mannar	8.9772444	79.9137786
+division	Manouba	36.7624363	9.833619078262766
 division	Manzini	-26.4958706	31.3695887
 division	Maputo	-25.966213	32.56745
 division	Maradi	13.501206	7.102534
@@ -13116,6 +13140,7 @@ division	Maritime	6.53703405	1.244338916227091
 division	Maritime Region	6.53703405	1.244338916227091
 division	Marmara	40.62164065	27.629427220927305
 division	Maroodi Jeex	6.1206	47.952599
+division	Marrakech-Safi	31.6048574	-8.3654032
 division	Martin	49.0617	18.919
 division	Martinique	14.6367927	-61.01582685063731
 division	Maryland	39.0458	-76.6413
@@ -13123,10 +13148,12 @@ division	Maryland LR	4.6355376	-7.7281669
 division	Maseru	-29.310054	27.478222
 division	Mashonaland Central	-16.742872	31.2952086
 division	Mashonaland East Province	-17.7927323	31.7678044
+division	Mashonaland West Province	-17.173987751055357	29.844033588428832
 division	Masovia	54.033698650000005	21.77436913174548
 division	Massachusetts	42.340741	-71.998513
 division	Masvingo	-20.307118600000003	30.88137696875768
 division	Matale	7.4720453	80.6234307
+division	Matam	15.0028849	-13.9240088
 division	Matara	5.947822	80.5482919
 division	Mathiveri	4.1920793	72.74568640153404
 division	Matlhakola	-22.7193629	27.3017217
@@ -13782,6 +13809,7 @@ division	Santa Rosa	14.150152349999999	-90.35088183533747
 division	Santander	6.746570	-73.476456
 division	Santarem	39.2849	-8.7041
 division	Santarem PT	39.2363637	-8.6867081
+division	Santiago	15.1200758	-23.634818134026133
 division	Santiago de Veraguas	8.0989867	-80.9803978
 division	Santiago del Estero	-27.6431016	-63.5408542
 division	Santo Domingo	-0.34018899999999996	-79.17154939601922
@@ -13811,6 +13839,7 @@ division	Scherpenheuvel-Zchem	50.9890	4.9776
 division	Schleswig-Holstein	54.1853998	9.8220089
 division	Schwyz	47.055398	8.73645
 division	Scotland	56.415858	-4.090641
+division	Sedhiou	12.9102548	-15.55298390097876
 division	Séguéla	7.9662547	-6.675572
 division	Selangor	3.0738	101.5183
 division	Semnan	35.2256	54.4342
@@ -13939,7 +13968,7 @@ division	South Yorkshire	53.4697	-1.326
 division	Southeast Region	10.356735749999999	108.59241422176846
 division	Southeast Sulawesi	-3.5491199	121.7279646
 division	Southeastern Region	41.4522215	22.657550068796596
-division	Southern	-46.040582	169.144142
+division	Southern	-24.901824837502364	24.589944257885044
 division	Southern Bohemia Region	49.0864548	14.600172741470452
 division	Southern District	-24.7998688	24.5800692
 division	Southern East	-24.911789240188916	24.61204567229615
@@ -13973,13 +14002,14 @@ division	Stropkov Region	49.2020091	21.6521343
 division	Stupava	48.2731324	17.0327458
 division	Styria	47.3593	14.4700
 division	Suceava	47.667761	26.266066
-division	Sucre	9.0	-75.0
+division	Sucre CO	9.0	-75.0
 division	Sucumbios	-0.039138	-76.5119678
 division	Sud Kivu	-3.223156	28.386665
 division	Sud-Ouest	10.38692085	-3.283188627811005
 division	Sud-Vest	44.70163810431606	23.382207815257086
 division	Sudan	14.5844444	29.4917691
 division	Sudurpaschim	28.7037278	80.5666463
+division	Suez	29.974498	32.537086
 division	Sukhothai	17.1446985	99.4375845
 division	Sulawesi Selatan	-3.6446718	119.9471906
 division	Šumadija District	44.1202429	20.85199400301452
@@ -13997,6 +14027,7 @@ division	Sveti Nikole	41.8647339	21.9420506
 division	Svit	49.0582357	20.1965291
 division	Sweden	59.6749712	14.5208584
 division	Swietokrzyskie	50.7504894	20.7829122
+division	Swietokrzyskie Voivodeship	50.7504894	20.7829122
 division	Switzerland	46.8182	8.2275
 division	Świętokrzyskie Voivodeship	50.7504894	20.7829122
 division	Syddanmark	55.3784583	9.13192766793894
@@ -14022,9 +14053,11 @@ division	Tamil Nadu	11.1271	78.6569
 division	Tamu	24.18735435	94.39209374929968
 division	Tana River	-1.53651195	39.55083745466502
 division	Tangail	24.248630	89.917926
+division	Tanger-Tetouan-Al Hoceima	35.202941	-5.5510167
 division	Tanzania	-6.5247123	35.7878438
 division	Taoyuan City	24.9929995	121.3010003
 division	Tapesovo	49.3740873	19.4467954
+division	Taraba	8.0141334	10.7376336
 division	Taranaki	-39.2711067	174.154795
 division	Tarapacá	-20.1636672	-69.5463448
 division	Targovishte	43.251196	26.5727944
@@ -14059,6 +14092,7 @@ division	Thai Binh	20.5296832	106.3876068
 division	Thai Nguyen	21.592477	105.8435398
 division	Thailand	14.8971921	100.83273
 division	Thanh Hoa	20.026365	105.439044
+division	The Marches	43.3458388	13.1415872
 division	Thessaloniki	40.636023	22.943965
 division	Thessaly	39.5649006	22.15384856543278
 division	Thies	14.791	-16.9359
@@ -14097,6 +14131,7 @@ division	Toledo	16.28022575	-88.55432196222363
 division	Tolemaida	4.2448718	-74.6580418
 division	Toliara	-23.354173	43.66966
 division	Tolima	4.065944	-75.215716
+division	Tomislavgrad	43.7169169	17.2278277
 division	Tongeren	50.774275	5.464625
 division	Topolcany	48.5594345	18.1754394
 division	Totonicapan	15.0424999	-91.40610219934399
@@ -14122,6 +14157,7 @@ division	Triesen	47.106994	9.5274876
 division	Trincomalee	8.576425	81.2344952
 division	Trinidad	10.36701726107432	-61.233044896832965
 division	Trinidad and Tobago	10.8677845	-60.9821067
+division	Tripoli	32.896672	13.1777923
 division	Tripura	23.7750823	91.7025091
 division	Trnava	48.3767652	17.5858175
 division	Trois-Rivières	15.9767433	-61.6441603
@@ -14255,6 +14291,7 @@ division	Villa Nueva	14.5308826	-90.5963325
 division	Villavicencio	4.134000	-73.623483
 division	Vilniaus Apskritis	54.82269205	25.249534001679514
 division	Vilnius	54.697979	25.279095
+division	Vinh Long	10.1069	105.9867653657871
 division	Vinhphuc	21.348702	105.548594
 division	Vinnytsia	49.2320162	28.467975
 division	Virgin Islands	18.3358	-64.8963
@@ -14390,6 +14427,7 @@ division	Zenica-Doboj	44.2010759	17.9055721
 division	Zepce	44.4287	18.0379
 division	Zhejiang	29.22571	120.299125
 division	Zielonogorskie	52.2275	15.2559
+division	Ziguinchor	12.5634929	-16.2724609
 division	Zilina	49.2234674	18.7393139
 division	Zimbabwe	-18.4554963	29.7468414
 division	Zinder	13.8063421	8.9891659
