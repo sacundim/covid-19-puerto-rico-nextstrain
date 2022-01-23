@@ -42,5 +42,5 @@ refine:
   root: "Wuhan-Hu-1/2019"
 
 files:
-  auspice_config: "puerto-rico_profiles/puerto-rico_open/my_auspice_config.json"
-  description: "puerto-rico_profiles/puerto-rico_open/my_description.md"
+  auspice_config: "puerto-rico_profiles/puerto-rico_open/puerto-rico_auspice_config.json"
+  description: "puerto-rico_profiles/puerto-rico_open/puerto-rico_description.md"
