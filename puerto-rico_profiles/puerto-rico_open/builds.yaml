@@ -3,10 +3,13 @@
 ## See my_profiles/example/builds.yaml for more general comments
 ## See docs/multiple_inputs.md for a walkthrough of this config.
 
+# Note: unaligned sequences are provided as "aligned" sequences to avoid an initial full-DB alignment
+# as we re-align everything after subsampling.
 inputs:
   - name: "open"
     metadata: "https://data.nextstrain.org/files/ncov/open/metadata.tsv.gz"
-    filtered: "https://data.nextstrain.org/files/ncov/open/filtered.fasta.xz"
+    aligned: "https://data.nextstrain.org/files/ncov/open/sequences.fasta.xz"
+    skip_sanitize_metadata: true
 
 builds:
   puerto-rico:
@@ -17,24 +20,38 @@ builds:
 
 subsampling:
   divisional:
-    division:
+    division_late:
       group_by: "year month"
-      max_sequences: 2500
+      max_sequences: 1500
+      sampling_scheme: "--probabilistic-sampling"
       query: --query "(country == '{country}' & division == '{division}')"
-    country:
-      group_by: "year month"
-      max_sequences: 1000
+    country_late:
+      group_by: "division year month"
+      max_sequences: 800
+      sampling_scheme: "--probabilistic-sampling"
       query: --query "(country == '{country}' & division != '{division}')"
-      priorities:
-        type: "proximity"
-        focus: "division"
-    global:
-      group_by: "year month"
-      max_sequences: 2000
+    global_late:
+      group_by: "region year month"
+      max_sequences: 800
+      sampling_scheme: "--probabilistic-sampling"
       query: --query "country != '{country}'"
-      priorities:
-        type: "proximity"
-        focus: "division"
+
+    division_early:
+      group_by: "year month"
+      max_sequences: 1500
+      sampling_scheme: "--probabilistic-sampling"
+      query: --query "(country == '{country}' & division == '{division}')"
+    country_early:
+      group_by: "division year month"
+      max_sequences: 600
+      sampling_scheme: "--probabilistic-sampling"
+      query: --query "(country == '{country}' & division != '{division}')"
+    global_early:
+      group_by: "region year month"
+      max_sequences: 600
+      sampling_scheme: "--probabilistic-sampling"
+      query: --query "country != '{country}'"
+
 
 # GenBank data includes "Wuhan-Hu-1/2019" which we use as the root for this build
 # as Wuhan/Hu-1/2019 is not in the data.
