@@ -219,7 +219,10 @@ rule combine_sequences_for_subsampling:
         Combine and deduplicate aligned FASTAs from multiple origins in preparation for subsampling.
         """
     input:
-        lambda w: [_get_path_for_input("aligned", origin) for origin in config.get("inputs", {})]
+        aligned=[
+            _get_path_for_input("aligned", input_name)
+            for input_name, input_record in config.get("inputs", {}).items()
+        ]
     output:
         "results/combined_sequences_for_subsampling.fasta.xz"
     benchmark:
@@ -231,7 +234,7 @@ rule combine_sequences_for_subsampling:
     shell:
         """
         python3 scripts/sanitize_sequences.py \
-                --sequences {input} \
+                --sequences {input.aligned} \
                 --strip-prefixes {params.strain_prefixes:q} \
                 {params.error_on_duplicate_strains} \
                 --output /dev/stdout \

@@ -132,8 +132,6 @@ def _get_unified_metadata(wildcards):
     return "results/combined_metadata.tsv.xz"
 
 def _get_unified_alignment(wildcards):
-    if len(list(config["inputs"].keys()))==1:
-        return _get_path_for_input("aligned", list(config["inputs"].keys())[0])
     return "results/combined_sequences_for_subsampling.fasta.xz",
 
 def _get_metadata_by_build_name(build_name):
