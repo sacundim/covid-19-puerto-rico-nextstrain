@@ -1,13 +1,11 @@
 
-## This YAML file is sparsely commented, with a focus on the parts relevant to multiple inputs
-## See my_profiles/example/builds.yaml for more general comments
-## See docs/multiple_inputs.md for a walkthrough of this config.
+custom_rules:
+  - nextstrain_profiles/nextstrain-gisaid/subsampling_ranges.smk
 
 inputs:
   - name: "open"
     metadata: "https://data.nextstrain.org/files/ncov/open/metadata.tsv.gz"
     aligned: "https://data.nextstrain.org/files/ncov/open/aligned.fasta.xz"
-    skip_sanitize_metadata: true
 
 builds:
   puerto-rico:
