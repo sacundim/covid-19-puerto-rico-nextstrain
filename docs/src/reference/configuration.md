@@ -209,6 +209,11 @@ Builds support any named attributes that can be referenced by subsampling scheme
 * description: Minimum collection date for strains to include in the analysis used by `augur filter --min-date`. Dates can be numeric floating point values (e.g., `2019.74`) or ISO 8601-style strings (e.g., `2019-10-01`).
 * default: `2019.74`
 
+### skip_diagnostics
+* type: boolean
+* description: Skip filtering by Nextclade quality control metrics like clock rate deviation, number of SNP clusters, possible contaminations, etc.
+* default: `false`
+
 ## frequencies
 ### min_date
 * type: float or string
@@ -669,6 +674,20 @@ priorities:
 ## title
 * type: string
 * description: Title to provide to `augur export` and display as the title of the analysis in Auspice.
+
+## cluster
+* type: object
+* description: Parameters for clustering of closely related strains
+
+### min_tips
+* type: integer
+* description: Number of tips to require in a polytomy to be considered part of a cluster.
+* default: `3`
+
+### group_by
+* type: string
+* description: Metadata column whose values should be used to determine whether closely related strains should be assigned to the same cluster. For example, the default column ensures that strains belong to the same division to be considered part of the same cluster.
+* default: `division`
 
 ## traits
 * type: object

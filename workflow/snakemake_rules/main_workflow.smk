@@ -444,19 +444,35 @@ rule combine_samples:
             --output-metadata {output.metadata} 2>&1 | tee {log}
         """
 
+rule prepare_nextclade:
+    message:
+        """
+        Downloading reference files for nextclade (used for alignment and qc).
+        """
+    output:
+        nextclade_dataset = directory("data/sars-cov-2-nextclade-defaults"),
+    params:
+        name = "sars-cov-2",
+    shell:
+        """
+        nextclade dataset get --name {params.name} --output-dir {output.nextclade_dataset}
+        """
+
 rule build_align:
     message:
         """
-        Aligning sequences to {input.reference}
+        Running nextclade QC and aligning sequences to {input.reference}
             - gaps relative to reference are considered real
         """
     input:
         sequences = rules.combine_samples.output.sequences,
         genemap = config["files"]["annotation"],
-        reference = config["files"]["alignment_reference"]
+        reference = config["files"]["alignment_reference"],
+        nextclade_dataset = rules.prepare_nextclade.output.nextclade_dataset,
     output:
         alignment = "results/{build_name}/aligned.fasta",
         insertions = "results/{build_name}/insertions.tsv",
+        nextclade_qc = 'results/{build_name}/nextclade_qc.tsv',
         translations = expand("results/{{build_name}}/translations/aligned.gene.{gene}.fasta", gene=config.get('genes', ['S']))
     params:
         outdir = "results/{build_name}/translations",
@@ -472,29 +488,47 @@ rule build_align:
         mem_mb=3000
     shell:
         """
-        xz -c -d {input.sequences} | nextalign \
-            --jobs={threads} \
+        xz -c -d {input.sequences} |  nextclade run \
+            --jobs {threads} \
+            --input-fasta /dev/stdin \
             --reference {input.reference} \
-            --genemap {input.genemap} \
-            --genes {params.genes} \
-            --sequences /dev/stdin \
+            --input-dataset {input.nextclade_dataset} \
+            --output-tsv {output.nextclade_qc} \
             --output-dir {params.outdir} \
             --output-basename {params.basename} \
             --output-fasta {output.alignment} \
-            --output-insertions {output.insertions} > {log} 2>&1
+            --output-insertions {output.insertions} 2>&1 | tee {log}
+        """
+
+rule join_metadata_and_nextclade_qc:
+    input:
+        metadata = "results/{build_name}/{build_name}_subsampled_metadata.tsv.xz",
+        nextclade_qc = "results/{build_name}/nextclade_qc.tsv",
+    output:
+        metadata = "results/{build_name}/metadata_with_nextclade_qc.tsv",
+    log:
+        "logs/join_metadata_and_nextclade_qc_{build_name}.txt",
+    benchmark:
+        "benchmarks/join_metadata_and_nextclade_qc_{build_name}.txt",
+    conda: config["conda_environment"]
+    shell:
+        """
+        python3 scripts/join-metadata-and-clades.py \
+            {input.metadata} \
+            {input.nextclade_qc} \
+            -o {output.metadata} 2>&1 | tee {log}
         """
 
 rule diagnostic:
     message: "Scanning metadata {input.metadata} for problematic sequences. Removing sequences with >{params.clock_filter} deviation from the clock and with more than {params.snp_clusters}."
     input:
-        metadata = "results/{build_name}/{build_name}_subsampled_metadata.tsv.xz",
+        metadata = "results/{build_name}/metadata_with_nextclade_qc.tsv",
     output:
         to_exclude = "results/{build_name}/excluded_by_diagnostics.txt"
     params:
         clock_filter = 20,
         snp_clusters = 1,
-        rare_mutations = 100,
-        clock_plus_rare = 100,
+        contamination = 5,
         skip_inputs_arg=_get_skipped_inputs_for_diagnostic,
     log:
         "logs/diagnostics_{build_name}.txt"
@@ -509,8 +543,7 @@ rule diagnostic:
         python3 scripts/diagnostic.py \
             --metadata {input.metadata} \
             --clock-filter {params.clock_filter} \
-            --rare-mutations {params.rare_mutations} \
-            --clock-plus-rare {params.clock_plus_rare} \
+            --contamination {params.contamination} \
             --snp-clusters {params.snp_clusters} \
             {params.skip_inputs_arg} \
             --output-exclusion-list {output.to_exclude} 2>&1 | tee {log}
@@ -598,7 +631,7 @@ rule index:
 
 rule annotate_metadata_with_index:
     input:
-        metadata="results/{build_name}/{build_name}_subsampled_metadata.tsv.xz",
+        metadata="results/{build_name}/metadata_with_nextclade_qc.tsv",
         sequence_index = "results/{build_name}/sequence_index.tsv",
     output:
         metadata="results/{build_name}/metadata_with_index.tsv",
@@ -718,7 +751,7 @@ rule adjust_metadata_regions:
         Adjusting metadata for build '{wildcards.build_name}'
         """
     input:
-        metadata="results/{build_name}/{build_name}_subsampled_metadata.tsv.xz",
+        metadata="results/{build_name}/metadata_with_index.tsv",
     output:
         metadata = "results/{build_name}/metadata_adjusted.tsv.xz"
     params:
@@ -1226,12 +1259,44 @@ rule calculate_epiweeks:
         config["conda_environment"],
     log:
         "logs/calculate_epiweeks_{build_name}.txt",
+    params:
+        metadata_id_columns=config["sanitize_metadata"]["metadata_id_columns"],
     shell:
         """
         python3 scripts/calculate_epiweek.py \
             --metadata {input.metadata} \
+            --metadata-id-columns {params.metadata_id_columns:q} \
             --output-node-data {output.node_data} 2>&1 | tee {log}
         """
+
+rule find_clusters:
+    input:
+        tree="results/{build_name}/tree_raw.nwk",
+        metadata="results/{build_name}/metadata_adjusted.tsv.xz",
+        mutations="results/{build_name}/nt_muts.json",
+    output:
+        clusters="results/{build_name}/clusters.tsv",
+    benchmark:
+        "benchmarks/find_clusters_{build_name}.txt",
+    conda:
+        config["conda_environment"],
+    log:
+        "logs/find_clusters_{build_name}.txt",
+    params:
+        min_tips=config["cluster"]["min_tips"],
+        group_by=config["cluster"]["group_by"],
+    resources:
+        mem_mb=12000,
+    shell:
+       """
+       python3 scripts/find_clusters.py \
+           --tree {input.tree} \
+           --metadata {input.metadata} \
+           --mutations {input.mutations} \
+           --min-tips {params.min_tips} \
+           --group-by {params.group_by} \
+           --output {output.clusters}
+       """
 
 def export_title(wildcards):
     # TODO: maybe we could replace this with a config entry for full/human-readable build name?
@@ -1268,7 +1333,7 @@ def _get_node_data_by_wildcards(wildcards):
         rules.logistic_growth.output.node_data,
         rules.mutational_fitness.output.node_data,
         rules.distances.output.node_data,
-        rules.calculate_epiweeks.output.node_data
+        rules.calculate_epiweeks.output.node_data,
     ]
 
     if "run_pangolin" in config and config["run_pangolin"]:
@@ -1279,8 +1344,25 @@ def _get_node_data_by_wildcards(wildcards):
 
     return inputs
 
+rule build_description:
+    message: "Templating build description for Auspice"
+    input:
+        description = lambda w: config["builds"][w.build_name]["description"] if "description" in config["builds"][w.build_name] else config["files"]["description"]
+    output:
+        description = "results/{build_name}/description.md"
+    log:
+        "logs/build_description_{build_name}.txt"
+    conda: config["conda_environment"]
+    shell:
+        """
+        env BUILD={wildcards.build_name:q} \
+            perl -pe 's/\$\{{BUILD\}}/$ENV{{BUILD}}/g' \
+                < {input.description:q} \
+                > {output.description:q}
+        """
+
 rule export:
-    message: "Exporting data files for for auspice"
+    message: "Exporting data files for Auspice"
     input:
         tree = rules.refine.output.tree,
         metadata="results/{build_name}/metadata_adjusted.tsv.xz",
@@ -1288,7 +1370,7 @@ rule export:
         auspice_config = lambda w: config["builds"][w.build_name]["auspice_config"] if "auspice_config" in config["builds"][w.build_name] else config["files"]["auspice_config"],
         colors = lambda w: config["builds"][w.build_name]["colors"] if "colors" in config["builds"][w.build_name] else ( config["files"]["colors"] if "colors" in config["files"] else rules.colors.output.colors.format(**w) ),
         lat_longs = config["files"]["lat_longs"],
-        description = lambda w: config["builds"][w.build_name]["description"] if "description" in config["builds"][w.build_name] else config["files"]["description"]
+        description = rules.build_description.output.description
     output:
         auspice_json = "results/{build_name}/ncov_with_accessions.json",
         root_sequence_json = "results/{build_name}/ncov_with_accessions_root-sequence.json"
