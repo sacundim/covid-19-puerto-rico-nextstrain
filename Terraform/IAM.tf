@@ -26,14 +26,14 @@ resource "aws_iam_role" "ecs_job_role" {
 }
 
 
-resource "aws_iam_role_policy_attachment" "ecs_job_role_main_bucket" {
+resource "aws_iam_role_policy_attachment" "ecs_job_role_access_to_buckets" {
   role       = aws_iam_role.ecs_job_role.name
-  policy_arn = aws_iam_policy.access_to_main_bucket.arn
+  policy_arn = aws_iam_policy.access_to_buckets.arn
 }
 
-resource "aws_iam_policy" "access_to_main_bucket" {
-  name        = "${var.project_name}-jobs-access-to-main-bucket"
-  description = "Access to the the main website bucket."
+resource "aws_iam_policy" "access_to_buckets" {
+  name        = "${var.project_name}-jobs-access-to-buckets"
+  description = "Access to the requisite buckets."
 
   policy = jsonencode({
     "Version": "2012-10-17",
@@ -45,7 +45,8 @@ resource "aws_iam_policy" "access_to_main_bucket" {
           "s3:ListBucket"
         ],
         "Resource": [
-          "arn:aws:s3:::${var.main_bucket_name}"
+          "arn:aws:s3:::${var.main_bucket_name}",
+          "arn:aws:s3:::${var.jobs_bucket_name}"
         ]
       },
       {
@@ -59,7 +60,9 @@ resource "aws_iam_policy" "access_to_main_bucket" {
         ],
         "Resource": [
           "arn:aws:s3:::${var.main_bucket_name}/auspice/*",
-          "arn:aws:s3:::${var.main_bucket_name}/auspice"
+          "arn:aws:s3:::${var.main_bucket_name}/auspice",
+          "arn:aws:s3:::${var.jobs_bucket_name}/*",
+          "arn:aws:s3:::${var.jobs_bucket_name}"
         ]
       }
     ]

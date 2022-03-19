@@ -8,6 +8,10 @@ resource "aws_batch_job_definition" "nextstrain_job" {
 
   container_properties = jsonencode({
     image = "${data.aws_ecr_image.nextstrain_job.registry_id}.dkr.ecr.${data.aws_region.current.name}.amazonaws.com/${data.aws_ecr_image.nextstrain_job.repository_name}:${data.aws_ecr_image.nextstrain_job.image_tag}"
+    command = [
+      "--profile",
+      "puerto-rico_profiles/puerto-rico_open/"
+    ]
     executionRoleArn = aws_iam_role.ecs_task_role.arn
     jobRoleArn = aws_iam_role.ecs_job_role.arn
     resourceRequirements = [
@@ -24,11 +28,15 @@ resource "aws_batch_job_definition" "nextstrain_job" {
     }
     environment = [
       {
-        name = "S3_DESTINATION",
+        name = "S3_AUSPICE_DESTINATION",
         value = "s3://${data.aws_s3_bucket.main_bucket.bucket}/auspice"
       },
       {
-        name = "DISTRIBUTION_ID",
+        name = "S3_JOBS_DESTINATION",
+        value = "s3://${aws_s3_bucket.jobs_bucket.bucket}"
+      },
+      {
+        name = "CLOUDFRONT_DISTRIBUTION_ID",
         value = aws_cloudfront_distribution.s3_distribution.id
       }
     ]
@@ -55,25 +63,9 @@ resource "aws_batch_compute_environment" "nextstrain" {
     # These have recent, high-performance processors, and provide
     # a very wide range of memory/cores combinations.
     instance_type = ["c6i", "m6i", "r6i", "c5", "m5", "r5"]
-/*
-    instance_type = [
-      "m6i.large",    #  8 GiB,  2 vCPUs, $0.096000 hourly
-      "r6i.large",    # 16 GiB,  2 vCPUs, $0.126000 hourly
-      "m6i.xlarge",   # 16 GiB,  4 vCPUs, $0.192000 hourly
-      "r6i.xlarge",   # 32 GiB,  4 vCPUs, $0.252000 hourly
-      "c6i.2xlarge",  # 16 GiB,  8 vCPUs, $0.340000 hourly
-      "m6i.xlarge",   # 32 GiB,  8 vCPUs, $0.384000 hourly
-
-      "m5.large",     #  8 GiB,  2 vCPUs, $0.096000 hourly
-      "r5.large",     # 16 GiB,  2 vCPUs, $0.126000 hourly
-      "m5.xlarge",    # 16 GiB,  4 vCPUs, $0.192000 hourly
-      "r5.xlarge",    # 32 GiB,  4 vCPUs, $0.252000 hourly
-      "c5.2xlarge",   # 16 GiB,  8 vCPUs, $0.340000 hourly
-      "m5.xlarge",    # 32 GiB,  8 vCPUs, $0.384000 hourly
-    ]
-*/
 
     max_vcpus = 16
+    # Important: 0 = compute environment scales down to nothing
     min_vcpus = 0
 
     security_group_ids = [
