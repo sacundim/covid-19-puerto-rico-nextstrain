@@ -42,10 +42,20 @@ resource "aws_iam_policy" "access_to_main_bucket" {
         "Sid": "VisualEditor0",
         "Effect": "Allow",
         "Action": [
+          "s3:ListBucket"
+        ],
+        "Resource": [
+          "arn:aws:s3:::${var.main_bucket_name}"
+        ]
+      },
+      {
+        "Sid": "VisualEditor1",
+        "Effect": "Allow",
+        "Action": [
           "s3:PutObject",
           "s3:GetObject",
-          "s3:ListBucket",
-          "s3:DeleteObject"
+          "s3:DeleteObject",
+          "s3:CopyObject"
         ],
         "Resource": [
           "arn:aws:s3:::${var.main_bucket_name}/auspice/*",
