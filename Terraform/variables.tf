@@ -43,13 +43,13 @@ variable "iam_user" {
 }
 
 variable "vcpus" {
-  description = "How many vCPUs to request per Batch task.  With Fargate, the max is 4."
+  description = "How many vCPUs to request per Batch task."
   default = 4
 }
 
 variable "memory" {
-  description = "How much memory to request per task. With Fargate, the max is 30720."
-  default = 12288
+  description = "How much memory to request per task. Usually power-of-two gigs minus 2 gigs."
+  default = 14336
 }
 
 variable "retry_attempts" {
