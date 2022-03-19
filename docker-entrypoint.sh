@@ -19,3 +19,5 @@ aws s3 sync --no-progress auspice/ "${S3_DESTINATION}"/
 aws cloudfront create-invalidation \
   --distribution-id "${DISTRIBUTION_ID}" \
   --paths '/auspice/*'
+
+echo "$(date): All done"
