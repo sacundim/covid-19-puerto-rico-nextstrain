@@ -15,7 +15,7 @@ S3_DESTINATION="${S3_DESTINATION%%+(/)}"
 aws s3 ls "${S3_DESTINATION}"/
 
 snakemake --printshellcmds --profile "${PROFILE}"
-aws s3 sync auspice/ "${S3_DESTINATION}"/
+aws s3 sync --no-progress auspice/ "${S3_DESTINATION}"/
 aws cloudfront create-invalidation \
   --distribution-id "${DISTRIBUTION_ID}" \
   --paths '/auspice/*'
