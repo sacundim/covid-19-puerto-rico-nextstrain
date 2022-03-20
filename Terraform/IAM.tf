@@ -182,3 +182,47 @@ resource "aws_iam_instance_profile" "ecs_instance_role" {
   name = "ecs_instance_role"
   role = aws_iam_role.ecs_instance_role.name
 }
+
+
+##############################################################################
+##############################################################################
+##
+## IAM setup for GitHub Actions to push Docker image to ECR
+##
+
+resource "aws_iam_user_policy" "ecr_push_user_policy" {
+  name = "ecr-push"
+  user = aws_iam_user.ecr_push_user.name
+
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "VisualEditor0",
+        "Effect": "Allow",
+        "Action": [
+          "ecr:CompleteLayerUpload",
+          "ecr:UploadLayerPart",
+          "ecr:InitiateLayerUpload",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:PutImage"
+        ],
+        "Resource": aws_ecr_repository.nextstrain_repo.arn
+      },
+      {
+        "Sid": "VisualEditor1",
+        "Effect": "Allow",
+        "Action": "ecr:GetAuthorizationToken",
+        "Resource": "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_user" "ecr_push_user" {
+  name = "covid-19-puerto-rico-nextstrain-github-ecr"
+  path = "/"
+  tags = {
+    Project = var.project_name
+  }
+}
