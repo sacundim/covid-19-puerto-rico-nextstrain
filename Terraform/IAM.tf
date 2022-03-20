@@ -209,6 +209,12 @@ resource "aws_iam_role" "ecs_events_role" {
 EOF
 }
 
+resource "aws_iam_role_policy_attachment" "batch_events_role_attach" {
+  role       = aws_iam_role.ecs_events_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSBatchServiceEventTargetRole"
+}
+
+
 
 ##############################################################################
 ##############################################################################
