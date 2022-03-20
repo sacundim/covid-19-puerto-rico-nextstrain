@@ -184,6 +184,32 @@ resource "aws_iam_instance_profile" "ecs_instance_role" {
 }
 
 
+resource "aws_iam_role" "ecs_events_role" {
+  name = "${var.project_name}-batch-events-role"
+  description = "Used by CloudWatch Events to launch scheduled tasks in Batch."
+  path = "/"
+  tags = {
+    Project = var.project_name
+  }
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "events.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+
 ##############################################################################
 ##############################################################################
 ##

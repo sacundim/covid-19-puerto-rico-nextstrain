@@ -1,3 +1,9 @@
+#####################################################################################
+#####################################################################################
+##
+## Job definition
+##
+
 resource "aws_batch_job_definition" "nextstrain_job" {
   name = var.project_name
   tags = {
@@ -50,6 +56,37 @@ resource "aws_batch_job_definition" "nextstrain_job" {
     attempt_duration_seconds = var.timeout_seconds
   }
 }
+
+#####################################################################################
+#####################################################################################
+##
+## Job scheduling
+##
+
+resource "aws_cloudwatch_event_rule" "weekly_run" {
+  name        = "covid-19-puerto-rico-nextstrain-weekly-run"
+  description = "Run the weekly Nextstrain build."
+  schedule_expression = "cron(55 09 ? * 1 *)"
+}
+
+resource "aws_cloudwatch_event_target" "weekly_run" {
+  target_id = "covid-19-puerto-rico-nextstrain-weekly-run"
+  rule = aws_cloudwatch_event_rule.weekly_run.name
+  arn = aws_batch_job_queue.nextstrain_queue.arn
+  role_arn = aws_iam_role.ecs_events_role.arn
+
+  batch_target {
+    job_definition = aws_batch_job_definition.nextstrain_job.arn
+    job_name       = aws_batch_job_definition.nextstrain_job.name
+  }
+}
+
+
+#####################################################################################
+#####################################################################################
+##
+## Compute environment
+##
 
 resource "aws_batch_compute_environment" "nextstrain" {
   compute_environment_name = "${var.project_name}-compute-environment"
