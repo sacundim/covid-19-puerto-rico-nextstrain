@@ -22,7 +22,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   enabled             = true
   is_ipv6_enabled     = true
-  default_root_object = "index.html"
+  #default_root_object = "index.html"
 
   aliases = [var.dns_name]
 
@@ -49,6 +49,12 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     default_ttl            = 3600
     max_ttl                = 86400
     compress = true
+
+    # Redirect requests that don't have a filename in the path to `index.html`
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.redirect_to_index.arn
+    }
   }
 
   restrictions {
@@ -85,6 +91,21 @@ data "aws_iam_policy_document" "cloudfront_access_to_main_bucket" {
 resource "aws_s3_bucket_policy" "cloudfront_access_to_main_bucket" {
   bucket = data.aws_s3_bucket.main_bucket.id
   policy = data.aws_iam_policy_document.cloudfront_access_to_main_bucket.json
+}
+
+
+#############################################################
+#############################################################
+##
+## Cloudfront function to redirect to index.html
+##
+
+resource "aws_cloudfront_function" "redirect_to_index" {
+  name    = "redirect_to_index"
+  runtime = "cloudfront-js-1.0"
+  comment = "Function to redirect requests without a file to index.html"
+  publish = true
+  code    = file("${path.module}/redirect_to_index_html.js")
 }
 
 
