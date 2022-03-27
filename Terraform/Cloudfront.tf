@@ -22,7 +22,9 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   enabled             = true
   is_ipv6_enabled     = true
-//  default_root_object = "index.html"
+  default_root_object = "index.html"
+
+  aliases = [var.dns_name]
 
   logging_config {
     bucket          = data.aws_s3_bucket.logs_bucket.bucket_domain_name
@@ -56,7 +58,9 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn = aws_acm_certificate_validation.cert_validation.certificate_arn
+    ssl_support_method = "sni-only"
+    minimum_protocol_version = "TLSv1.1_2016"
   }
 }
 
@@ -83,3 +87,56 @@ resource "aws_s3_bucket_policy" "cloudfront_access_to_main_bucket" {
   policy = data.aws_iam_policy_document.cloudfront_access_to_main_bucket.json
 }
 
+
+#############################################################
+#############################################################
+##
+## Certificate Manager and Route 53
+##
+
+resource "aws_acm_certificate" "cert" {
+  provider = aws.acm_provider
+  domain_name       = var.dns_name
+  subject_alternative_names = ["*.${var.dns_name}"]
+  validation_method = "DNS"
+
+  tags = {
+    Project = var.project_name
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_acm_certificate_validation" "cert_validation" {
+  provider = aws.acm_provider
+  certificate_arn = aws_acm_certificate.cert.arn
+#  validation_record_fqdns = [for record in aws_route53_record.root-a : record.fqdn]
+}
+
+
+#############################################################
+#############################################################
+##
+## Route 53
+##
+
+resource "aws_route53_zone" "dns_zone" {
+  name         = var.dns_name
+  tags = {
+    Project = var.project_name
+  }
+}
+
+resource "aws_route53_record" "root-a" {
+  zone_id = aws_route53_zone.dns_zone.zone_id
+  name = var.dns_name
+  type = "A"
+
+  alias {
+    name = aws_cloudfront_distribution.s3_distribution.domain_name
+    zone_id = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+    evaluate_target_health = false
+  }
+}

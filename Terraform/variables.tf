@@ -4,6 +4,12 @@ variable "project_name" {
   default = "covid-19-puerto-rico-nextstrain"
 }
 
+variable "dns_name" {
+  type = string
+  description = "The DNS name of the project website."
+  default = "covid-19-puerto-rico.org"
+}
+
 variable "main_bucket_name" {
   type = string
   description = "The name of the base S3 bucket to create/use."
