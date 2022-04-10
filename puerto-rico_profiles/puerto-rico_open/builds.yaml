@@ -4,9 +4,8 @@ custom_rules:
 
 inputs:
   - name: "open"
-    metadata: "s3://nextstrain-data/files/ncov/open/metadata.tsv.gz"
-    aligned: "s3://nextstrain-data/files/ncov/open/sequences.fasta.xz"
-    skip_sanitize_metadata: true
+    metadata: "https://data.nextstrain.org/files/ncov/open/metadata.tsv.gz"
+    aligned: "https://data.nextstrain.org/files/ncov/open/aligned.fasta.xz"
 
 builds:
   puerto-rico:
