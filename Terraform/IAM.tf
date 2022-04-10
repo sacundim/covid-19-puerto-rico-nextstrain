@@ -69,6 +69,43 @@ resource "aws_iam_policy" "access_to_buckets" {
   })
 }
 
+resource "aws_iam_role_policy_attachment" "ecs_job_role_access_to_nextstrain_buckets" {
+  role       = aws_iam_role.ecs_job_role.name
+  policy_arn = aws_iam_policy.access_to_nexstrain_buckets.arn
+}
+
+resource "aws_iam_policy" "access_to_nexstrain_buckets" {
+  name        = "${var.project_name}-jobs-access-to-nexstrain-buckets"
+  description = "Read access to Nextstrain's public buckets, for intermediate data files."
+
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "VisualEditor0",
+        "Effect": "Allow",
+        "Action": [
+          "s3:ListBucket"
+        ],
+        "Resource": [
+          "arn:aws:s3:::nextstrain-data"
+        ]
+      },
+      {
+        "Sid": "VisualEditor1",
+        "Effect": "Allow",
+        "Action": [
+          "s3:GetObject"
+        ],
+        "Resource": [
+          "arn:aws:s3:::nextstrain-data/*"
+        ]
+      }
+    ]
+  })
+}
+
+
 resource "aws_iam_role_policy_attachment" "ecs_job_role_invalidate_cloudfront" {
   role       = aws_iam_role.ecs_job_role.name
   policy_arn = aws_iam_policy.invalidate_cloudfront.arn
