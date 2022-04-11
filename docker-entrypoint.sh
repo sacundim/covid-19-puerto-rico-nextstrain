@@ -19,6 +19,11 @@ aws s3 ls "${S3_AUSPICE_DESTINATION}"/
 aws s3 ls "${S3_JOBS_DESTINATION}"/
 
 
+echo "$(date): Checking access to Nextstrain Open intermediate files"
+aws s3 ls "s3://nextstrain-data/files/ncov/open/metadata.tsv.gz"
+aws s3 ls "s3://nextstrain-data/files/ncov/open/sequences.fasta.xz"
+
+
 echo "$(date): Running the Nexstrain build"
 snakemake --printshellcmds "$@"
 
