@@ -9,6 +9,7 @@ resource "aws_batch_job_definition" "nextstrain_job" {
   tags = {
     Project = var.project_name
   }
+  propagate_tags = true
   type = "container"
   platform_capabilities = ["EC2"]
 
@@ -21,8 +22,8 @@ resource "aws_batch_job_definition" "nextstrain_job" {
     executionRoleArn = aws_iam_role.ecs_task_role.arn
     jobRoleArn = aws_iam_role.ecs_job_role.arn
     resourceRequirements = [
-      {"type": "VCPU", "value": tostring(var.vcpus)},
-      {"type": "MEMORY", "value": tostring(var.memory)}
+      {"type": "VCPU", "value": 4},
+      {"type": "MEMORY", "value": 14336}
     ]
     "logConfiguration": {
       "logDriver": "awslogs",

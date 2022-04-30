@@ -1,7 +1,4 @@
 
-custom_rules:
-  - nextstrain_profiles/nextstrain-gisaid/subsampling_ranges.smk
-
 inputs:
   - name: "open"
     metadata: "s3://nextstrain-data/files/ncov/open/metadata.tsv.gz"
@@ -9,44 +6,59 @@ inputs:
     skip_sanitize_metadata: true
 
 builds:
-  puerto-rico:
+  puerto-rico_6m:
     division: Puerto Rico
     country: USA
     region: North America
-    subsampling_scheme: divisional
+    subsampling_scheme: divisional_6m
 
 subsampling:
-  divisional:
+  divisional_all-time:
+    division:
+      group_by: "year month"
+      max_sequences: 1500
+      query: --query "(country == '{country}' & division == '{division}')"
+    country:
+      group_by: "division year month"
+      max_sequences: 800
+      query: --query "(country == '{country}' & division != '{division}')"
+    global:
+      group_by: "region year month"
+      max_sequences: 800
+      query: --query "country != '{country}'"
+
+
+  divisional_6m:
     division_late:
       group_by: "year month"
       max_sequences: 1500
-      sampling_scheme: "--probabilistic-sampling"
+      min_date: "--min-date 6M"
       query: --query "(country == '{country}' & division == '{division}')"
     country_late:
       group_by: "division year month"
       max_sequences: 800
-      sampling_scheme: "--probabilistic-sampling"
+      min_date: "--min-date 6M"
       query: --query "(country == '{country}' & division != '{division}')"
     global_late:
       group_by: "region year month"
       max_sequences: 800
-      sampling_scheme: "--probabilistic-sampling"
+      min_date: "--min-date 6M"
       query: --query "country != '{country}'"
 
     division_early:
       group_by: "year month"
       max_sequences: 1500
-      sampling_scheme: "--probabilistic-sampling"
+      max_date: "--max-date 6M"
       query: --query "(country == '{country}' & division == '{division}')"
     country_early:
       group_by: "division year month"
       max_sequences: 600
-      sampling_scheme: "--probabilistic-sampling"
+      max_date: "--max-date 6M"
       query: --query "(country == '{country}' & division != '{division}')"
     global_early:
       group_by: "region year month"
       max_sequences: 600
-      sampling_scheme: "--probabilistic-sampling"
+      max_date: "--max-date 6M"
       query: --query "country != '{country}'"
 
 

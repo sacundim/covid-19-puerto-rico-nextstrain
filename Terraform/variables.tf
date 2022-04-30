@@ -48,16 +48,6 @@ variable "iam_user" {
   default = "covid-19-puerto-rico"
 }
 
-variable "vcpus" {
-  description = "How many vCPUs to request per Batch task."
-  default = 4
-}
-
-variable "memory" {
-  description = "How much memory to request per task. Usually power-of-two gigs minus 2 gigs."
-  default = 14336
-}
-
 variable "retry_attempts" {
   description = "How many times to try tasks in AWS Batch."
   default = 1  # Just try once
