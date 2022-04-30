@@ -252,10 +252,17 @@ rule index_sequences:
     benchmark:
         "benchmarks/index_sequences.txt"
     conda: config["conda_environment"]
+    params:
+        strain_prefixes=config["strip_strain_prefixes"],
+        sanitize_log="logs/sanitize_sequences_before_index.txt",
     shell:
         """
-        augur index \
+        python3 scripts/sanitize_sequences.py \
             --sequences {input.sequences} \
+            --strip-prefixes {params.strain_prefixes:q} \
+            --output /dev/stdout 2> {params.sanitize_log} \
+            | augur index \
+            --sequences /dev/stdin \
             --output {output.sequence_index} 2>&1 | tee {log}
         """
 
@@ -478,7 +485,9 @@ rule build_align:
     params:
         outdir = "results/{build_name}/translations",
         genes = ','.join(config.get('genes', ['S'])),
-        basename = "aligned"
+        basename = "aligned",
+        strain_prefixes=config["strip_strain_prefixes"],
+        sanitize_log="logs/sanitize_sequences_before_nextclade_{build_name}.txt",
     log:
         "logs/align_{build_name}.txt"
     benchmark:
@@ -489,7 +498,11 @@ rule build_align:
         mem_mb=3000
     shell:
         """
-        xz -c -d {input.sequences} |  nextclade run \
+        python3 scripts/sanitize_sequences.py \
+            --sequences {input.sequences} \
+            --strip-prefixes {params.strain_prefixes:q} \
+            --output /dev/stdout 2> {params.sanitize_log} \
+            | nextclade run \
             --jobs {threads} \
             --input-fasta /dev/stdin \
             --reference {input.reference} \
@@ -1352,13 +1365,22 @@ rule build_description:
     log:
         "logs/build_description_{build_name}.txt"
     conda: config["conda_environment"]
-    shell:
-        """
-        env BUILD={wildcards.build_name:q} \
-            perl -pe 's/\$\{{BUILD\}}/$ENV{{BUILD}}/g' \
-                < {input.description:q} \
-                > {output.description:q}
-        """
+    run:
+        from string import Template
+
+        context = {
+            "BUILD": wildcards.build_name,
+            **{
+                f"BUILD_PART_{idx}": part
+                    for idx, part
+                     in enumerate(wildcards.build_name.split("_"))},
+        }
+
+        with open(input.description, "r", encoding = "utf-8") as i:
+            template = Template(i.read())
+
+        with open(output.description, "w", encoding = "utf-8") as o:
+            o.write(template.safe_substitute(context))
 
 rule export:
     message: "Exporting data files for Auspice"

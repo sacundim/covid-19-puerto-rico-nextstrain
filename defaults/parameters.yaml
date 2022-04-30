@@ -81,8 +81,8 @@ filter:
   exclude_where: "division='USA'"
   exclude_ambiguous_dates_by: "any"
 
-  # Exclude sequences which are from before late 2019 (likely date mix-ups)
-  min_date: 2019.74
+  # Exclude sequences which are from before Dec 2019 (likely date mix-ups)
+  min_date: "2019-12-01"
 
 # When choosing contextual samples for a focal set, applying crowding penalty
 # will help reduce the number of genetically identical strains that get chosen,
@@ -101,7 +101,7 @@ mask:
   # Number of bases to mask from the beginning and end of the alignment. These regions of the genome
   # are difficult to sequence accurately.
   mask_from_beginning: 100
-  mask_from_end: 50
+  mask_from_end: 200
 
   # Specific sites to mask in the reference genome's coordinates.
   # These are 1-indexed coordinates of sites that have been identified as prone to sequencing errors.
@@ -136,10 +136,10 @@ frequencies:
   # min_date is set by default to 1 year before present
   # but can be explicitly set if desired
 
-  # Number of months between pivots
+  # Number of weeks between pivots
   pivot_interval: 1
 
-  # Measure pivots in weeks rather than months
+  # Measure pivots in weeks
   pivot_interval_units: "weeks"
 
   # KDE bandwidths in proportion of a year to use per strain.
