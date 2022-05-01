@@ -6,7 +6,8 @@ inputs:
     skip_sanitize_metadata: true
 
 builds:
-  puerto-rico_6m:
+  puerto-rico:
+    title: SARS-CoV-2 en Puerto Rico
     division: Puerto Rico
     country: USA
     region: North America
@@ -16,15 +17,15 @@ subsampling:
   divisional_all-time:
     division:
       group_by: "year month"
-      max_sequences: 1500
+      max_sequences: 2000
       query: --query "(country == '{country}' & division == '{division}')"
     country:
       group_by: "division year month"
-      max_sequences: 800
+      max_sequences: 1200
       query: --query "(country == '{country}' & division != '{division}')"
     global:
       group_by: "region year month"
-      max_sequences: 800
+      max_sequences: 1000
       query: --query "country != '{country}'"
 
 
