@@ -11,7 +11,7 @@ configfile:
   - puerto-rico_profiles/puerto-rico_open/builds.yaml # Pull in our list of desired builds
 
 # Set the maximum number of cores you want Snakemake to use for this pipeline.
-cores: 8
+cores: 4
 
 # Always print the commands that will be run to the screen for debugging.
 printshellcmds: True
