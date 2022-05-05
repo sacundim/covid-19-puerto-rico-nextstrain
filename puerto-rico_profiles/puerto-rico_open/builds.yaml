@@ -11,7 +11,7 @@ builds:
     division: Puerto Rico
     country: USA
     region: North America
-    subsampling_scheme: divisional
+    subsampling_scheme: divisional_all-time
   puerto-rico:
     title: SARS-CoV-2 en Puerto Rico, enfoque en últimos 6 meses
     division: Puerto Rico
