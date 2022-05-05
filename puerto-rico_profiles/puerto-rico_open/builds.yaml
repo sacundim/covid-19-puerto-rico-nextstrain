@@ -6,28 +6,34 @@ inputs:
     skip_sanitize_metadata: true
 
 builds:
+  puerto-rico_all-time:
+    title: SARS-CoV-2 en Puerto Rico, enfoque desde inicio de la pandemia
+    division: Puerto Rico
+    country: USA
+    region: North America
+    subsampling_scheme: divisional
   puerto-rico:
-    title: SARS-CoV-2 en Puerto Rico
+    title: SARS-CoV-2 en Puerto Rico, enfoque en últimos 6 meses
     division: Puerto Rico
     country: USA
     region: North America
     subsampling_scheme: divisional_6m
 
+
 subsampling:
   divisional_all-time:
     division:
       group_by: "year month"
-      max_sequences: 2000
+      max_sequences: 2800
       query: --query "(country == '{country}' & division == '{division}')"
     country:
       group_by: "division year month"
-      max_sequences: 1200
+      max_sequences: 1000
       query: --query "(country == '{country}' & division != '{division}')"
     global:
       group_by: "region year month"
       max_sequences: 1000
       query: --query "country != '{country}'"
-
 
   divisional_6m:
     division_late:
