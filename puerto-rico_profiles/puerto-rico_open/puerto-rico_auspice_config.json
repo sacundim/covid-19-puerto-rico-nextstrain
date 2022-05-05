@@ -13,77 +13,77 @@
   "colorings": [
     {
       "key": "emerging_lineage",
-      "title": "Linaje emergente",
+      "title": "Emerging Lineage",
       "type": "categorical"
     },
     {
       "key": "pango_lineage",
-      "title": "Linaje PANGO",
+      "title": "PANGO Lineage",
       "type": "categorical"
     },
     {
       "key": "clade_membership",
-      "title": "Clado",
+      "title": "Clade",
       "type": "categorical"
     },
     {
       "key": "S1_mutations",
-      "title": "Mutaciones S1",
+      "title": "S1 mutations",
       "type": "continuous"
     },
     {
       "key": "logistic_growth",
-      "title": "Crecimiento logístico",
+      "title": "Logistic growth",
       "type": "continuous"
     },
     {
       "key": "current_frequency",
-      "title": "Frecuencia corriente",
+      "title": "Current frequency",
       "type": "continuous"
     },
     {
       "key": "mutational_fitness",
-      "title": "Aptitud mutacional",
+      "title": "Mutational fitness",
       "type": "continuous"
     },
     {
       "key": "division",
-      "title": "División administrativa",
+      "title": "Admin Division",
       "type": "categorical"
     },
     {
       "key": "country",
-      "title": "País",
+      "title": "Country",
       "type": "categorical"
     },
     {
       "key": "region",
-      "title": "Región",
+      "title": "Region",
       "type": "categorical"
     },
     {
       "key": "host",
-      "title": "Hospedero",
+      "title": "Host",
       "type": "categorical"
     },
     {
       "key": "author",
-      "title": "Autores",
+      "title": "Authors",
       "type": "categorical"
     },
     {
       "key":"originating_lab",
-      "title": "Laboratorio de orígen",
+      "title": "Originating Lab",
       "type": "categorical"
     },
     {
       "key": "submitting_lab",
-      "title": "Laboratorio depositador",
+      "title": "Submitting Lab",
       "type": "categorical"
     },
     {
       "key": "recency",
-      "title": "Fecha de depósito",
+      "title": "Submission Date",
       "type": "categorical"
     },
     {
@@ -102,8 +102,7 @@
     "geo_resolution": "country",
     "map_triplicate": true,
     "branch_label": "clade",
-    "transmission_lines": false,
-    "language": "es"
+    "transmission_lines": false
   },
   "filters": [
     "recency",
