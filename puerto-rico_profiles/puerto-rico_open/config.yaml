@@ -13,6 +13,10 @@ configfile:
 # Set the maximum number of cores you want Snakemake to use for this pipeline.
 cores: 8
 
+# Only use up to 4 threads in the tree rule, so as to allow two to run at the same time
+set-threads: tree=4
+
+
 # Always print the commands that will be run to the screen for debugging.
 printshellcmds: True
 
