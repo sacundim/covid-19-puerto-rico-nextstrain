@@ -6,6 +6,8 @@ RUN_TIME="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 S3_AUSPICE_DESTINATION="${S3_AUSPICE_DESTINATION:?"S3_AUSPICE_DESTINATION not set"}"
 S3_JOBS_DESTINATION="${S3_JOBS_DESTINATION:?"S3_JOBS_DESTINATION not set"}"
 CLOUDFRONT_DISTRIBUTION_ID="${CLOUDFRONT_DISTRIBUTION_ID:?"CLOUDFRONT_DISTRIBUTION_ID not set"}"
+SNAKEMAKE_CORES="${SNAKEMAKE_CORES:?"SNAKEMAKE_CORES not set"}"
+SNAKEMAKE_MEM_MB="${SNAKEMAKE_MEM_MB:?"SNAKEMAKE_MEM_MB not set"}"
 
 # Remove final slashes
 shopt -s extglob # Needed for the globs just below to work
@@ -24,14 +26,13 @@ aws s3 ls "s3://nextstrain-data/files/ncov/open/metadata.tsv.gz"
 aws s3 ls "s3://nextstrain-data/files/ncov/open/sequences.fasta.xz"
 
 
-CORES="$(nproc)"
-MEM_MB="$(($(cat /sys/fs/cgroup/memory.max) / 1024 / 1024))"
-echo "$(date): ${CORES} cores and ${MEM_MB} MiB available"
-
 echo "$(date): Running the Nexstrain build"
 EXIT_CODE=0
-# This incantation is to not exit the script even if the command fails:
-snakemake --cores "${CORES}" --resources mem_mb="${MEM_MB}" "$@" \
+# The `|| EXIT_CODE=$?` incantation is to not exit the script even if the command fails:
+snakemake \
+  --cores "${SNAKEMAKE_CORES}" \
+  --resources mem_mb="${SNAKEMAKE_MEM_MB}" \
+  "$@" \
   || EXIT_CODE=$?
 
 if [ "${EXIT_CODE}" -ne 0 ]

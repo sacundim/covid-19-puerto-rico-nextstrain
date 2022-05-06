@@ -4,6 +4,12 @@
 ## Job definition
 ##
 
+locals {
+  # If these are not strings we get errors
+  cores = "8"
+  mem_mb = "30720"
+}
+
 resource "aws_batch_job_definition" "nextstrain_job" {
   name = var.project_name
   tags = {
@@ -22,8 +28,8 @@ resource "aws_batch_job_definition" "nextstrain_job" {
     executionRoleArn = aws_iam_role.ecs_task_role.arn
     jobRoleArn = aws_iam_role.ecs_job_role.arn
     resourceRequirements = [
-      {"type": "VCPU", "value": "8"},
-      {"type": "MEMORY", "value": "30720"}
+      {"type": "VCPU", "value": local.cores},
+      {"type": "MEMORY", "value": local.mem_mb}
     ]
     "logConfiguration": {
       "logDriver": "awslogs",
@@ -45,7 +51,15 @@ resource "aws_batch_job_definition" "nextstrain_job" {
       {
         name = "CLOUDFRONT_DISTRIBUTION_ID",
         value = aws_cloudfront_distribution.s3_distribution.id
-      }
+      },
+      {
+        name = "SNAKEMAKE_CORES",
+        value = local.cores
+      },
+      {
+        name = "SNAKEMAKE_MEM_MB",
+        value = local.mem_mb
+      },
     ]
   })
 
