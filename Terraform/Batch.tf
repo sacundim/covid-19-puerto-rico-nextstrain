@@ -6,7 +6,7 @@
 
 locals {
   # If these are not strings we get errors
-  cores = "4"
+  cores = "8"
   mem_mb = "15872"
 }
 
@@ -51,15 +51,7 @@ resource "aws_batch_job_definition" "nextstrain_job" {
       {
         name = "CLOUDFRONT_DISTRIBUTION_ID",
         value = aws_cloudfront_distribution.s3_distribution.id
-      },
-      {
-        name = "SNAKEMAKE_CORES",
-        value = local.cores
-      },
-      {
-        name = "SNAKEMAKE_MEM_MB",
-        value = local.mem_mb
-      },
+      }
     ]
   })
 

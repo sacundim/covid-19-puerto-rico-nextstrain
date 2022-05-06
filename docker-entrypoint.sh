@@ -27,13 +27,9 @@ aws s3 ls "s3://nextstrain-data/files/ncov/open/sequences.fasta.xz"
 
 
 echo "$(date): Running the Nexstrain build"
-EXIT_CODE=0
-# The `|| EXIT_CODE=$?` incantation is to not exit the script even if the command fails:
-snakemake \
-  --cores "${SNAKEMAKE_CORES}" \
-  --resources mem_mb="${SNAKEMAKE_MEM_MB}" \
-  "$@" \
-  || EXIT_CODE=$?
+# The `|| EXIT_CODE=$?` incantation is to not exit the script even if the command fails,
+# because we want later down to archive all the logs and artifacts to S3:
+EXIT_CODE=0; snakemake "$@" --cores "$(nproc)"|| EXIT_CODE=$?
 
 if [ "${EXIT_CODE}" -ne 0 ]
 then
