@@ -25,7 +25,7 @@ aws s3 ls "s3://nextstrain-data/files/ncov/open/sequences.fasta.xz"
 
 
 CORES="$(nproc)"
-MEM_MB=""$(($(cat /sys/fs/cgroup/memory.max) / 1024 / 1024))""
+MEM_MB="$(($(cat /sys/fs/cgroup/memory.max) / 1024 / 1024))"
 echo "$(date): ${CORES} cores and ${MEM_MB} MiB available"
 
 echo "$(date): Running the Nexstrain build"
