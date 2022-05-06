@@ -1408,6 +1408,7 @@ rule export:
     shell:
         """
         augur export v2 \
+            --skip-validation \
             --tree {input.tree} \
             --metadata {input.metadata} \
             --node-data {input.node_data} \
