@@ -23,7 +23,7 @@ resource "aws_batch_job_definition" "nextstrain_job" {
     jobRoleArn = aws_iam_role.ecs_job_role.arn
     resourceRequirements = [
       {"type": "VCPU", "value": "8"},
-      {"type": "MEMORY", "value": "14336"}
+      {"type": "MEMORY", "value": "30720"}
     ]
     "logConfiguration": {
       "logDriver": "awslogs",

@@ -24,18 +24,28 @@ aws s3 ls "s3://nextstrain-data/files/ncov/open/metadata.tsv.gz"
 aws s3 ls "s3://nextstrain-data/files/ncov/open/sequences.fasta.xz"
 
 
+CORES="$(nproc)"
+MEM_MB=""$(($(cat /sys/fs/cgroup/memory.max) / 1024 / 1024))""
+echo "$(date): ${CORES} cores and ${MEM_MB} MiB available"
+
 echo "$(date): Running the Nexstrain build"
-snakemake --printshellcmds "$@"
+EXIT_CODE=0
+# This incantation is to not exit the script even if the command fails:
+snakemake --cores "${CORES}" --resources mem_mb="${MEM_MB}" "$@" \
+  || EXIT_CODE=$?
 
+if [ "${EXIT_CODE}" -ne 0 ]
+then
+  echo "$(date): Snakemake failed with exit code ${EXIT_CODE}; skipping S3 and Cloudfront"
+else
+  echo "$(date): Syncing auspice files to destination bucket"
+  aws s3 sync --no-progress auspice/ "${S3_AUSPICE_DESTINATION}"/
 
-echo "$(date): Syncing auspice files to destination bucket"
-aws s3 sync --no-progress auspice/ "${S3_AUSPICE_DESTINATION}"/
-
-
-echo "$(date): Invalidating CloudFront distribution"
-aws cloudfront create-invalidation \
-  --distribution-id "${CLOUDFRONT_DISTRIBUTION_ID}" \
-  --paths '/auspice/*'
+  echo "$(date): Invalidating CloudFront distribution"
+  aws cloudfront create-invalidation \
+    --distribution-id "${CLOUDFRONT_DISTRIBUTION_ID}" \
+    --paths '/auspice/*'
+fi
 
 
 echo "$(date): Syncing other result files to jobs bucket"
@@ -54,4 +64,9 @@ do
   fi
 done
 
-echo "$(date): All done"
+if [ "${EXIT_CODE}" -ne 0 ]
+then
+  echo "$(date): Snakemake failed with exit code ${EXIT_CODE}"
+else
+  echo "$(date): All done"
+fi
