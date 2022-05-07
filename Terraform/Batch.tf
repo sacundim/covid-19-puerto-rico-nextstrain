@@ -6,8 +6,8 @@
 
 locals {
   # If these are not strings we get errors
-  cores = "8"
-  mem_mb = "15872"
+  cores = "4"
+  mem_mb = "7682"
 }
 
 resource "aws_batch_job_definition" "nextstrain_job" {
