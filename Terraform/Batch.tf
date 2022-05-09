@@ -7,7 +7,12 @@
 locals {
   # If these are not strings we get errors
   cores = "4"
-  mem_mb = "7682"
+  mem_mb = "7168"
+
+  registry = data.aws_ecr_image.nextstrain_job.registry_id
+  region = data.aws_region.current.name
+  repository = data.aws_ecr_image.nextstrain_job.repository_name
+  tag = data.aws_ecr_image.nextstrain_job.image_tag
 }
 
 resource "aws_batch_job_definition" "nextstrain_job" {
@@ -20,10 +25,10 @@ resource "aws_batch_job_definition" "nextstrain_job" {
   platform_capabilities = ["EC2"]
 
   container_properties = jsonencode({
-    image = "${data.aws_ecr_image.nextstrain_job.registry_id}.dkr.ecr.${data.aws_region.current.name}.amazonaws.com/${data.aws_ecr_image.nextstrain_job.repository_name}:${data.aws_ecr_image.nextstrain_job.image_tag}"
+    image = "${local.registry}.dkr.ecr.${local.region}.amazonaws.com/${local.repository}:${local.tag}"
     command = [
-      "--profile",
-      "puerto-rico_profiles/puerto-rico_open/"
+      # Default: run the whole build. Override the command to do something different
+      "--profile", "puerto-rico_profiles/puerto-rico_open/"
     ]
     executionRoleArn = aws_iam_role.ecs_task_role.arn
     jobRoleArn = aws_iam_role.ecs_job_role.arn
@@ -56,7 +61,15 @@ resource "aws_batch_job_definition" "nextstrain_job" {
   })
 
   retry_strategy {
-    attempts = var.retry_attempts
+    attempts = 2
+    evaluate_on_exit {
+      on_status_reason = "Host EC2*"
+      action = "RETRY"
+    }
+    evaluate_on_exit {
+      on_reason = "*"
+      action = "EXIT"
+    }
   }
 
   timeout {
@@ -76,8 +89,8 @@ resource "aws_cloudwatch_event_rule" "weekly_run" {
   schedule_expression = "cron(55 09 ? * 1 *)"
 }
 
-resource "aws_cloudwatch_event_target" "weekly_run" {
-  target_id = "covid-19-puerto-rico-nextstrain-weekly-run"
+resource "aws_cloudwatch_event_target" "weekly_run_6m" {
+  target_id = "covid-19-puerto-rico-nextstrain-6m-run"
   rule = aws_cloudwatch_event_rule.weekly_run.name
   arn = aws_batch_job_queue.nextstrain_queue.arn
   role_arn = aws_iam_role.ecs_events_role.arn
@@ -86,7 +99,39 @@ resource "aws_cloudwatch_event_target" "weekly_run" {
     job_definition = aws_batch_job_definition.nextstrain_job.arn
     job_name       = aws_batch_job_definition.nextstrain_job.name
   }
+
+  input = jsonencode({
+    "ContainerOverrides": {
+      "Command": [
+        "--profile", "puerto-rico_profiles/puerto-rico_open/",
+        "--config", "active_builds=puerto-rico"
+      ]
+    }
+  })
 }
+
+/* TODO: Reenable this once we've tested that the ContainerOverrides actually works as I expect
+resource "aws_cloudwatch_event_target" "weekly_run_all_time" {
+  target_id = "covid-19-puerto-rico-nextstrain-all-time-run"
+  rule = aws_cloudwatch_event_rule.weekly_run.name
+  arn = aws_batch_job_queue.nextstrain_queue.arn
+  role_arn = aws_iam_role.ecs_events_role.arn
+
+  batch_target {
+    job_definition = aws_batch_job_definition.nextstrain_job.arn
+    job_name       = aws_batch_job_definition.nextstrain_job.name
+  }
+
+  input = jsonencode({
+    "ContainerOverrides": {
+      "Command": [
+        "--profile", "puerto-rico_profiles/puerto-rico_open/",
+        "--config", "active_builds=puerto-rico_all-time"
+      ]
+    }
+  })
+}
+*/
 
 
 #####################################################################################
@@ -106,7 +151,11 @@ resource "aws_batch_compute_environment" "nextstrain" {
 
     # These have recent, high-performance processors, and provide
     # a very wide range of memory/cores combinations.
-    instance_type = ["c6i", "m6i", "r6i", "c5", "m5", "r5"]
+    instance_type = [
+      "c6i", "m6i", "r6i",
+      # TODO: Get rid of these?
+      "c5", "m5", "r5"
+    ]
 
     max_vcpus = 16
     # Important: 0 = compute environment scales down to nothing
@@ -118,7 +167,13 @@ resource "aws_batch_compute_environment" "nextstrain" {
 
     subnets = aws_subnet.subnet.*.id
 
-    type = "EC2"
+    type = "SPOT"
+    allocation_strategy = "BEST_FIT"
+
+    # If not set, it will bid up to 100% of On-Demand:
+    bid_percentage = 50
+
+    spot_iam_fleet_role = aws_iam_role.spot_fleet_tagging_role.arn
   }
 
   service_role = aws_iam_role.batch_service_role.arn

@@ -252,6 +252,45 @@ resource "aws_iam_role_policy_attachment" "batch_events_role_attach" {
 }
 
 
+resource "aws_iam_role" "spot_fleet_tagging_role" {
+  name = "${var.project_name}-spot-fleet-tagging-role"
+  description = "Used by AWS Batch to tag EC2 Spot Fleets."
+  path = "/"
+  tags = {
+    Project = var.project_name
+  }
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "spotfleet.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "spot_fleet_tagging_role_attach" {
+  role       = aws_iam_role.spot_fleet_tagging_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole"
+}
+
+resource "aws_iam_service_linked_role" "spot" {
+  description      = "Default EC2 Spot Service Linked Role"
+  aws_service_name = "spot.amazonaws.com"
+}
+
+resource "aws_iam_service_linked_role" "spotfleet" {
+  aws_service_name = "spotfleet.amazonaws.com"
+}
+
 
 ##############################################################################
 ##############################################################################
