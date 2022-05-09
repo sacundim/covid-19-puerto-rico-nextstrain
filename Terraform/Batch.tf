@@ -158,15 +158,14 @@ resource "aws_batch_compute_environment" "nextstrain" {
   compute_resources {
     instance_role = aws_iam_instance_profile.ecs_instance_role.arn
 
-    # These have recent, high-performance processors, and provide
-    # a very wide range of memory/cores combinations.
+    # These have reasonably recent, high-performance processors, and
+    # provide a very wide range of memory/cores combinations.
     instance_type = [
       "c6i", "m6i", "r6i",
-      # TODO: Add these?
+      # As of 2022-05-09, Batch doesn't yet support these:
       # "c6a", "m6a", "r6a",
-      # TODO: Get rid of these?
-      "c5", "m5", "r5",
-      # "c5a", "m5a", "r5a",
+      "c5",  "m5",  "r5",
+      "c5a", "m5a", "r5a"
     ]
 
     max_vcpus = 16
