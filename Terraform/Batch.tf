@@ -110,7 +110,6 @@ resource "aws_cloudwatch_event_target" "weekly_run_6m" {
   })
 }
 
-/* TODO: Reenable this once we've tested that the ContainerOverrides actually works as I expect
 resource "aws_cloudwatch_event_target" "weekly_run_all_time" {
   target_id = "covid-19-puerto-rico-nextstrain-all-time-run"
   rule = aws_cloudwatch_event_rule.weekly_run.name
@@ -131,7 +130,6 @@ resource "aws_cloudwatch_event_target" "weekly_run_all_time" {
     }
   })
 }
-*/
 
 
 #####################################################################################
@@ -141,7 +139,18 @@ resource "aws_cloudwatch_event_target" "weekly_run_all_time" {
 ##
 
 resource "aws_batch_compute_environment" "nextstrain" {
-  compute_environment_name = "${var.project_name}-compute-environment"
+  # If we don't do this prefix/create_before_destroy business
+  # we get errors when we try to destroy a compute environment.
+  # See:
+  #
+  # * https://github.com/hashicorp/terraform-provider-aws/issues/2044
+  # * https://discuss.hashicorp.com/t/error-error-deleting-batch-compute-environment-cannot-delete-found-existing-jobqueue-relationship/5408
+  #
+  compute_environment_name_prefix = "${var.project_name}-compute-environment-"
+  lifecycle {
+    create_before_destroy = true
+  }
+
   tags = {
     Project = var.project_name
   }
@@ -153,8 +162,11 @@ resource "aws_batch_compute_environment" "nextstrain" {
     # a very wide range of memory/cores combinations.
     instance_type = [
       "c6i", "m6i", "r6i",
+      # TODO: Add these?
+      # "c6a", "m6a", "r6a",
       # TODO: Get rid of these?
-      "c5", "m5", "r5"
+      "c5", "m5", "r5",
+      # "c5a", "m5a", "r5a",
     ]
 
     max_vcpus = 16
