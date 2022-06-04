@@ -164,8 +164,10 @@ resource "aws_batch_compute_environment" "nextstrain" {
       "c6i", "m6i", "r6i",
       # As of 2022-05-09, Batch doesn't yet support these:
       # "c6a", "m6a", "r6a",
-      "c5",  "m5",  "r5",
-      "c5a", "m5a", "r5a"
+      "c5",  "m5",  "r5"
+      # The single-threaded performance of these is so much
+      # slower that it actually takes longer and costs us more
+      # "c5a", "m5a", "r5a"
     ]
 
     max_vcpus = 16
