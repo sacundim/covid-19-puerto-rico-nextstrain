@@ -10914,6 +10914,7 @@ OV104449
 OV104515
 OV104542
 OV104635
+OV108314
 OV111753
 OV113567
 OV114062
@@ -10928,6 +10929,7 @@ Slovakia/UVZ_PL37_B8_18062/2021
 Slovakia/UVZ_PL37_C8_18063/2021
 Slovakia/UVZ_PL37_H7_18060/2021
 Timor-Leste/TL981/2021
+Timor-Leste/TL983/2021
 Timor-Leste/TL985/2021
 Timor-Leste/TL979/2021
 Timor-Leste/TL1011/2021
@@ -10977,6 +10979,7 @@ EGY/Egypt-Army-Thirdwave352/2021
 EGY/Egypt-Army-Thirdwave353/2021
 EGY/Third-Wave-EGY-ARMY47/2021
 EGY/Third-Wave-EGY-ARMY48/2021
+Egypt/ARMY-47/2021
 Egypt/ARMY-350/2021
 Egypt/ARMY-351/2021
 Egypt/ARMY-353/2021
@@ -11075,3 +11078,6 @@ USA/MA-MGB-04633/2022	# Strain has same BioSample accession (SAMN27380803) as US
 Switzerland/AG-ETHZ-37212980/2022	# Strain has same BioSample accession (SAMEA14384752) as Switzerland/AG-ETHZ-37191344/2022
 Switzerland/VD-ETHZ-37183848/2022	# Strain has same BioSample accession (SAMEA14384854) as Switzerland/BS-ETHZ-37200739/2022
 Switzerland/VD-ETHZ-37195675/2022	# Strain has same BioSample accession (SAMEA14384844) as Switzerland/BE-ETHZ-37244299/2022
+
+Switzerland/BE-IFIK-220509_os_64/2022	# Strain has same BioSample accession (SAMEA14395103) as Switzerland/BE-IFIK-220509_os_56/2022
+Switzerland/ZH-UZH-IMV-3ba6364d/2022	# Strain has same BioSample accession (SAMEA14418975) as Switzerland/ZH-UZH-IMV-3ba63445/2022
