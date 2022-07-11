@@ -1,4 +1,3 @@
-
 inputs:
   - name: "open"
     metadata: "s3://nextstrain-data/files/ncov/open/metadata.tsv.gz"
@@ -77,3 +76,6 @@ refine:
 files:
   auspice_config: "puerto-rico_profiles/puerto-rico_open/puerto-rico_auspice_config.json"
   description: "puerto-rico_profiles/puerto-rico_open/puerto-rico_description.md"
+  exclude:
+    - "defaults/exclude.txt"
+    - "puerto-rico_profiles/puerto-rico_open/exclude.txt"
