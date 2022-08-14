@@ -55,7 +55,7 @@ resource "aws_batch_job_definition" "nextstrain_job" {
       },
       {
         name = "CLOUDFRONT_DISTRIBUTION_ID",
-        value = aws_cloudfront_distribution.s3_distribution.id
+        value = data.aws_cloudfront_distribution.s3_distribution.id
       }
     ]
   })
