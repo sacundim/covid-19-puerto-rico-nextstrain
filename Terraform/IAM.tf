@@ -192,7 +192,7 @@ resource "aws_iam_role_policy_attachment" "batch_service_role" {
 
 
 resource "aws_iam_role" "ecs_instance_role" {
-  name = "ecs_instance_role"
+  name = "${var.project_name}-ecs-instance-role"
 
   assume_role_policy = <<EOF
 {
