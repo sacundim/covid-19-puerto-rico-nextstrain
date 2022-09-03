@@ -11868,6 +11868,7 @@ division	Asturias	43.317041	-6.006428
 division	Asuncion	-25.2800459	-57.6343814
 division	Aswan Governorate	23.1046213	32.4239202
 division	Atacama	-27.5571783	-70.0156882
+division	Atacora	10.7160515	1.5331527
 division	Ath	50.646122	3.770363
 division	Athens	37.987832	23.726319
 division	Atlantico	10.681025	-74.955752
@@ -12003,6 +12004,7 @@ division	Bihar	25.0961	85.3131
 division	Bihor	46.992055	22.190274243393223
 division	Bijelo Polje	43.0341595	19.7473559
 division	Binh Thuan	11.101462	107.9415938
+division	Binhduong	11.1969829	106.7080527
 division	Binhphuoc	11.742454571731182	106.9270018272755
 division	Biobío	-37.3391407	-72.4106825
 division	Bioko Norte	3.6484594	8.7851155
@@ -12040,6 +12042,7 @@ division	Bono Region	7.6761791	-2.4735401
 division	Bonoua	5.2736582	-3.5966802
 division	Bonthe	7.5292766	-12.5131866
 division	Bordj-Bou-Arreridj	36.095506	4.661100173631754
+division	Borgou	9.7097453	2.7422648
 division	Borno State	12.1875392	13.3080034
 division	Boromo	11.7447567	-2.9300274
 division	Borsod-Abaúj-Zemplén County	48.2939	20.6934
@@ -12518,6 +12521,7 @@ division	Gambia	13.5	-15.5
 division	Gampaha	7.0925595	79.9951396
 division	Gamprin-Bendern	47.218268329898166	9.511064043646217
 division	Gandaki	27.86266215	84.69527530316
+division	Gangwon-do	37.885	127.7297
 division	Gani Tikva	32.06111	34.87444
 division	Gansu	38.0000001	101.9999999
 division	Garoua	9.3070698	13.3934527
@@ -12565,6 +12569,7 @@ division	Gorontalo	0.7186174	122.4555927
 division	Gostivar	41.7920222	20.9081703
 division	Gotland	57.4174802	18.536957927499856
 division	Goumenissa	40.9466441	22.4519413
+division	Grace-Hollogne	50.6323039	5.4768436
 division	Grand Anse Praslin	-4.3319083	55.7200083
 division	Grand-Bassam	5.212884	-3.743226
 division	Grand Canary Islands	27.9202	-15.5474
@@ -12795,6 +12800,7 @@ division	Jihocesky Kraj	49.0864548	14.600172741470452
 division	Jihomoravsky Kraj	49.1249179	16.682771628867208
 division	Jilin	42.9995032	125.9816054
 division	Jining	35.4125047	116.5849266
+division	Johannesburg	-26.205	28.049722
 division	Johnson Atoll	16.730014876272758	-169.53297092697503
 division	Johor	2.0229012	103.3147721
 division	Jonavos Apskritis	55.11587936658516	24.28549931199114
@@ -13005,6 +13011,7 @@ division	KwaZulu-Natal	-28.704798	30.693005
 division	Kweneng District	-23.9028101	24.9214122
 division	Kwilu	-5.0213398	18.8445746
 division	Kyiv	50.4500336	30.5241361
+division	Kyiv Region	50.4730906	30.46739703508237
 division	Kyoto	35.007542	135.768455
 division	Kyrgyzstan	41.927675	75.142149
 division	Kyushu	32.4820915	131.10090358324425
@@ -13371,6 +13378,7 @@ division	Mymensingh	24.8386014	90.41126950462677
 division	Myto Pod Dumbierom	48.8556374	19.62969423799256
 division	Māzandarān	36.3159159	51.8968597
 division	N'Djamena	12.1191543	15.0502758
+division	N'Zerekore	7.7589949	-8.8160001
 division	Nabatieh	33.3812029	35.4825346
 division	Nabeul	36.4512854	10.7355969
 division	Nablus	32.2205316	35.2569374
@@ -13604,6 +13612,7 @@ division	Oudenaarde	50.857635	3.629018
 division	Oueme	6.625372	2.532611
 division	Overijssel	52.436273	6.463628
 division	Oyo State	8.154414	3.632978
+division	P.A. Bolzano	46.4981125	11.3547801
 division	Pa Trento	46.096712	11.130704
 division	Paal	51.032994	5.166286
 division	Päijät-Häme	61.2297202	25.810550681272005
@@ -13700,6 +13709,7 @@ division	Podlaskie	53.2668455	22.8525787
 division	Podravska	46.4809178	15.745088519392077
 division	Podunavlje District	44.447787453394106	20.99815259869355
 division	Pointe-A-Pitre	16.2408636	-61.5334077
+division	Pokhara	28.209538	83.991402
 division	Pokot	1.8798607999999999	35.21061300684997
 division	Poland	52.0977181	19.0258159
 division	Polleur	50.580257	5.866744
@@ -13732,6 +13742,7 @@ division	Pristina	42.6638771	21.1640849
 division	Prizren	42.2130151	20.7363339
 division	Prizren XK	42.211157650000004	20.694371212378066
 division	Prnjavor	44.8686369	17.6631777
+division	Prokuplje	43.2343484	21.5884422
 division	Provence-Alpes-Côte d'Azur	44.0580563	6.0638506
 division	Province 1	27.2308035	87.17636350640461
 division	Province 2	26.943053499999998	85.60748359660322
@@ -14105,6 +14116,7 @@ division	Srem District	44.919434949999996	19.970689942688402
 division	Sri Lanka	7.75	80.75
 division	St Eustatius	17.4865252	-62.9653116
 division	St Jans Molenbeek	50.8545959	4.338636
+division	St-Joris-Weert	50.8006875	4.6517014
 division	St-Louis	16.0326	-16.4818
 division	St. Lucia	13.8250489	-60.975036
 division	Stann Creek	16.9666599	-88.2247368
