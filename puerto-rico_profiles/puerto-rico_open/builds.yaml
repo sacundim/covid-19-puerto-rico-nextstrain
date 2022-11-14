@@ -23,16 +23,10 @@ subsampling:
       group_by: "division year month"
       max_sequences: 1000
       query: --query "(country == '{country}' & division != '{division}')"
-      priorities:
-        type: "proximity"
-        focus: "division"
     global:
       group_by: "region year month"
       max_sequences: 1000
       query: --query "country != '{country}'"
-      priorities:
-        type: "proximity"
-        focus: "division"
 
 
 # GenBank data includes "Wuhan-Hu-1/2019" which we use as the root for this build
