@@ -18,8 +18,13 @@
     },
     {
       "key": "pango_lineage",
-      "title": "Linaje PANGO",
+      "title": "Linaje PANGO (según GenBank)",
       "type": "categorical"
+    },
+    {
+        "key": "Nextclade_pango",
+        "title": "Linaje PANGO (según Nextclade)",
+        "type": "categorical"
     },
     {
       "key": "clade_membership",
