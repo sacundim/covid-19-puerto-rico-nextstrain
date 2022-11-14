@@ -89,8 +89,8 @@ resource "aws_cloudwatch_event_rule" "weekly_run" {
   schedule_expression = "cron(55 09 ? * 1 *)"
 }
 
-resource "aws_cloudwatch_event_target" "weekly_run_6m" {
-  target_id = "covid-19-puerto-rico-nextstrain-6m-run"
+resource "aws_cloudwatch_event_target" "weekly_run" {
+  target_id = "covid-19-puerto-rico-nextstrain-run"
   rule = aws_cloudwatch_event_rule.weekly_run.name
   arn = aws_batch_job_queue.nextstrain_queue.arn
   role_arn = aws_iam_role.ecs_events_role.arn
@@ -105,27 +105,6 @@ resource "aws_cloudwatch_event_target" "weekly_run_6m" {
       "Command": [
         "--profile", "puerto-rico_profiles/puerto-rico_open/",
         "--config", "active_builds=puerto-rico"
-      ]
-    }
-  })
-}
-
-resource "aws_cloudwatch_event_target" "weekly_run_all_time" {
-  target_id = "covid-19-puerto-rico-nextstrain-all-time-run"
-  rule = aws_cloudwatch_event_rule.weekly_run.name
-  arn = aws_batch_job_queue.nextstrain_queue.arn
-  role_arn = aws_iam_role.ecs_events_role.arn
-
-  batch_target {
-    job_definition = aws_batch_job_definition.nextstrain_job.arn
-    job_name       = aws_batch_job_definition.nextstrain_job.name
-  }
-
-  input = jsonencode({
-    "ContainerOverrides": {
-      "Command": [
-        "--profile", "puerto-rico_profiles/puerto-rico_open/",
-        "--config", "active_builds=puerto-rico_all-time"
       ]
     }
   })

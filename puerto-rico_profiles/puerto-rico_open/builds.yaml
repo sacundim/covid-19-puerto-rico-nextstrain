@@ -5,18 +5,12 @@ inputs:
     skip_sanitize_metadata: true
 
 builds:
-  puerto-rico_all-time:
-    title: SARS-CoV-2 en Puerto Rico, enfoque desde inicio de la pandemia
+  puerto-rico:
+    title: Filogenia del SARS-CoV-2 en Puerto Rico
     division: Puerto Rico
     country: USA
     region: North America
     subsampling_scheme: divisional_all-time
-  puerto-rico:
-    title: SARS-CoV-2 en Puerto Rico, enfoque en últimos 6 meses
-    division: Puerto Rico
-    country: USA
-    region: North America
-    subsampling_scheme: divisional_6m
 
 
 subsampling:
@@ -32,39 +26,6 @@ subsampling:
     global:
       group_by: "region year month"
       max_sequences: 1000
-      query: --query "country != '{country}'"
-
-  divisional_6m:
-    division_late:
-      group_by: "year month"
-      max_sequences: 1500
-      min_date: "--min-date 6M"
-      query: --query "(country == '{country}' & division == '{division}')"
-    country_late:
-      group_by: "division year month"
-      max_sequences: 800
-      min_date: "--min-date 6M"
-      query: --query "(country == '{country}' & division != '{division}')"
-    global_late:
-      group_by: "region year month"
-      max_sequences: 800
-      min_date: "--min-date 6M"
-      query: --query "country != '{country}'"
-
-    division_early:
-      group_by: "year month"
-      max_sequences: 1500
-      max_date: "--max-date 6M"
-      query: --query "(country == '{country}' & division == '{division}')"
-    country_early:
-      group_by: "division year month"
-      max_sequences: 600
-      max_date: "--max-date 6M"
-      query: --query "(country == '{country}' & division != '{division}')"
-    global_early:
-      group_by: "region year month"
-      max_sequences: 600
-      max_date: "--max-date 6M"
       query: --query "country != '{country}'"
 
 
