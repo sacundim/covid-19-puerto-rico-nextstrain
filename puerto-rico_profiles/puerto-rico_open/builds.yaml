@@ -28,39 +28,6 @@ subsampling:
       max_sequences: 1000
       query: --query "country != '{country}'"
 
-  divisional_6m:
-    division_late:
-      group_by: "year month"
-      max_sequences: 1500
-      min_date: "--min-date 6M"
-      query: --query "(country == '{country}' & division == '{division}')"
-    country_late:
-      group_by: "division year month"
-      max_sequences: 800
-      min_date: "--min-date 6M"
-      query: --query "(country == '{country}' & division != '{division}')"
-    global_late:
-      group_by: "region year month"
-      max_sequences: 800
-      min_date: "--min-date 6M"
-      query: --query "country != '{country}'"
-
-    division_early:
-      group_by: "year month"
-      max_sequences: 1500
-      max_date: "--max-date 6M"
-      query: --query "(country == '{country}' & division == '{division}')"
-    country_early:
-      group_by: "division year month"
-      max_sequences: 600
-      max_date: "--max-date 6M"
-      query: --query "(country == '{country}' & division != '{division}')"
-    global_early:
-      group_by: "region year month"
-      max_sequences: 600
-      max_date: "--max-date 6M"
-      query: --query "country != '{country}'"
-
 
 # GenBank data includes "Wuhan-Hu-1/2019" which we use as the root for this build
 # as Wuhan/Hu-1/2019 is not in the data.
