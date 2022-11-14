@@ -5,18 +5,12 @@ inputs:
     skip_sanitize_metadata: true
 
 builds:
-  puerto-rico_all-time:
-    title: SARS-CoV-2 en Puerto Rico, enfoque desde inicio de la pandemia
+  puerto-rico:
+    title: Filogenia del SARS-CoV-2 en Puerto Rico
     division: Puerto Rico
     country: USA
     region: North America
     subsampling_scheme: divisional_all-time
-  puerto-rico:
-    title: SARS-CoV-2 en Puerto Rico, enfoque en últimos 6 meses
-    division: Puerto Rico
-    country: USA
-    region: North America
-    subsampling_scheme: divisional_6m
 
 
 subsampling:
