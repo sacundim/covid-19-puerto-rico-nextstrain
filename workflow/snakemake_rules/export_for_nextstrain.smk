@@ -188,7 +188,7 @@ rule auspice_config:
                 },
                 {
                     "key": "pango_lineage",
-                    "title": "GISAID Pango Lineage",
+                    "title": "Pangolin Pango Lineage",
                     "type": "categorical"
                 },
                 {
@@ -206,6 +206,16 @@ rule auspice_config:
                     "key": "rbd_level",
                     "title": "RBD Level",
                     "type": "ordinal"
+                },
+                {
+                    "key": "immune_escape",
+                    "title": "Immune Escape vs BA.2",
+                    "type": "continuous"
+                },
+                {
+                    "key": "ace2_binding",
+                    "title": "ACE2 binding vs BA.2",
+                    "type": "continuous"
                 },
                 {
                     "key": "logistic_growth",
