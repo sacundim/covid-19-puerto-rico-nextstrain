@@ -9,10 +9,9 @@ locals {
   cores = "4"
   mem_mb = "15360"
 
-  registry = data.aws_ecr_image.nextstrain_job.registry_id
-  region = data.aws_region.current.name
-  repository = data.aws_ecr_image.nextstrain_job.repository_name
-  tag = data.aws_ecr_image.nextstrain_job.image_tag
+  registry = "sacundim"
+  repository = "covid-19-puerto-rico-nextstrain"
+  tag = "latest"
 }
 
 resource "aws_batch_job_definition" "nextstrain_job" {
@@ -25,7 +24,7 @@ resource "aws_batch_job_definition" "nextstrain_job" {
   platform_capabilities = ["EC2"]
 
   container_properties = jsonencode({
-    image = "${local.registry}.dkr.ecr.${local.region}.amazonaws.com/${local.repository}:${local.tag}"
+    image = "${local.registry}/${local.repository}:${local.tag}"
     command = [
       # Default: run the whole build. Override the command to do something different
       "--profile", "puerto-rico_profiles/puerto-rico_open/"
@@ -137,16 +136,8 @@ resource "aws_batch_compute_environment" "nextstrain" {
   compute_resources {
     instance_role = aws_iam_instance_profile.ecs_instance_role.arn
 
-    # These have reasonably recent, high-performance processors, and
-    # provide a very wide range of memory/cores combinations.
     instance_type = [
-      "c6i", "m6i", "r6i",
-      # As of 2022-05-09, Batch doesn't yet support these:
-      # "c6a", "m6a", "r6a",
-      "c5",  "m5",  "r5"
-      # The single-threaded performance of these is so much
-      # slower that it actually takes longer and costs us more
-      # "c5a", "m5a", "r5a"
+      "c7g", "c6g", "m6g", "r6g"
     ]
 
     max_vcpus = 16
