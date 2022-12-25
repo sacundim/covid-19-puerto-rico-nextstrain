@@ -310,13 +310,18 @@ resource "aws_iam_user_policy" "ecr_push_user_policy" {
         "Effect": "Allow",
         "Action": [
           "ecr:CompleteLayerUpload",
-          "ecr:GetAuthorizationToken",
           "ecr:UploadLayerPart",
           "ecr:InitiateLayerUpload",
           "ecr:BatchCheckLayerAvailability",
           "ecr:PutImage"
         ],
         "Resource": aws_ecr_repository.nextstrain_repo.arn
+      },
+      {
+        "Sid": "VisualEditor1",
+        "Effect": "Allow",
+        "Action": "ecr:GetAuthorizationToken",
+        "Resource": "*"
       }
     ]
   })
