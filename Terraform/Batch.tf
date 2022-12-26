@@ -136,8 +136,23 @@ resource "aws_batch_compute_environment" "nextstrain" {
   compute_resources {
     instance_role = aws_iam_instance_profile.ecs_instance_role.arn
 
+    # These have reasonably recent, high-performance processors, and
+    # provide a very wide range of memory/cores combinations.
     instance_type = [
-      "c7g", "c6g", "m6g", "r6g"
+#      "c6idn",  "m6idn",  "r6idn",  #  2022-12-25: not in AWS Batch
+      "c6id",   "m6id",   "r6id",
+#      "c6in",   "m6in",   "r6in",   #  2022-12-25: not in AWS Batch
+      "c6i",    "m6i",    "r6i",
+      "c6a",    "m6a",    "r6a",
+#      "c5zn",   "m5zn",   "r5zn",   # 2022-12-25: not in AWS Batch
+#      "c5dn",   "m5dn",   "r5dn",   # 2022-12-25: not in AWS Batch
+      "c5d",    "m5d",    "r5d",
+      "c5n",    "m5n",    "r5n",
+      "c5",     "m5",     "r5",
+
+      # The single-threaded performance of these is so much
+      # slower that it actually takes longer and costs us more
+      # "c5a", "m5a", "r5a"
     ]
 
     max_vcpus = 16
