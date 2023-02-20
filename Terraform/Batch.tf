@@ -9,7 +9,7 @@ locals {
   cores = "4"
   mem_mb = "15360"
 
-  registry = "sacundim"
+  registry = "ghcr.io/sacundim"
   repository = "covid-19-puerto-rico-nextstrain"
   tag = "latest"
 }
