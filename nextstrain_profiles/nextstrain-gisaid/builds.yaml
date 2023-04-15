@@ -10,8 +10,6 @@ custom_rules:
 S3_DST_BUCKET: "nextstrain-ncov-private"
 S3_DST_COMPRESSION: "xz"
 S3_DST_ORIGINS: ["gisaid"]
-upload:
-  - build-files
 
 # Deploy and Slack options are related to Nextstrain live builds and don't need to be modified for local builds
 deploy_url: s3://nextstrain-data
@@ -25,12 +23,10 @@ include_hcov19_prefix: True
 files:
   description: "nextstrain_profiles/nextstrain-gisaid/nextstrain_description.md"
 
-# Note: unaligned sequences are provided as "aligned" sequences to avoid an initial full-DB alignment
-# as we re-align everything after subsampling.
 inputs:
   - name: gisaid
-    metadata: "s3://nextstrain-ncov-private/metadata.tsv.gz"
-    aligned: "s3://nextstrain-ncov-private/sequences.fasta.xz"
+    metadata: "s3://nextstrain-ncov-private/metadata.tsv.zst"
+    aligned: "s3://nextstrain-ncov-private/aligned.fasta.zst"
     skip_sanitize_metadata: true
 
 # Define locations for which builds should be created.
