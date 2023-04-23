@@ -140,14 +140,14 @@ resource "aws_batch_compute_environment" "nextstrain" {
     # provide a very wide range of memory/cores combinations.
     instance_type = [
 #      "c6idn",  "m6idn",  "r6idn",  #  2022-12-25: not in AWS Batch
-      "c6id",   "m6id",   "r6id",
+#      "c6id",   "m6id",   "r6id",   #  2023-04-23: not good prices
 #      "c6in",   "m6in",   "r6in",   #  2022-12-25: not in AWS Batch
       "c6i",    "m6i",    "r6i",
-      "c6a",    "m6a",    "r6a",
+#      "c6a",    "m6a",    "r6a",    # 2023-04-23: I've never tested this one
 #      "c5zn",   "m5zn",   "r5zn",   # 2022-12-25: not in AWS Batch
 #      "c5dn",   "m5dn",   "r5dn",   # 2022-12-25: not in AWS Batch
-      "c5d",    "m5d",    "r5d",
-      "c5n",    "m5n",    "r5n",
+#      "c5d",    "m5d",    "r5d",    # 2023-04-23: not good prices
+#      "c5n",    "m5n",    "r5n",    # 2023-04-23: not good prices
       "c5",     "m5",     "r5",
 
       # The single-threaded performance of these is so much
