@@ -6,7 +6,7 @@
 
 locals {
   # If these are not strings we get errors
-  cores = "4"
+  cores = "2"
   mem_mb = "15360"
 
   registry = "sacundim"
