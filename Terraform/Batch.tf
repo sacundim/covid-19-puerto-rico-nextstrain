@@ -169,7 +169,7 @@ resource "aws_batch_compute_environment" "nextstrain" {
     allocation_strategy = "BEST_FIT"
 
     # If not set, it will bid up to 100% of On-Demand:
-    bid_percentage = 50
+    bid_percentage = 67
 
     spot_iam_fleet_role = aws_iam_role.spot_fleet_tagging_role.arn
   }
